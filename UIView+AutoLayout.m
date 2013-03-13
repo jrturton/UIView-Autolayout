@@ -59,6 +59,21 @@
     return [constraints copy];
 }
 
+-(NSArray*)pinToSuperviewEdgesWithInset:(UIEdgeInsets)insets
+{
+    UIView *superview = self.superview;
+    NSAssert(superview,@"Can't pin to a superview if no superview exists");
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+    
+    [constraints addObjectsFromArray:[self pinToSuperviewEdges:JRTViewPinTopEdge inset:insets.top]];
+    [constraints addObjectsFromArray:[self pinToSuperviewEdges:JRTViewPinLeftEdge inset:insets.left]];
+    [constraints addObjectsFromArray:[self pinToSuperviewEdges:JRTViewPinBottomEdge inset:insets.bottom]];
+    [constraints addObjectsFromArray:[self pinToSuperviewEdges:JRTViewPinRightEdge inset:insets.right]];
+    
+    return [constraints copy];
+}
+
 -(void)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView
 {
     [self pinEdge:edge toEdge:toEdge ofView:peerView inset:0.0];
