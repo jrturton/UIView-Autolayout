@@ -37,4 +37,7 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 /// Set to a specific size. 0 in any axis results in no constraint being applied.
 -(void)constrainToSize:(CGSize)size;
 
+/// Pins a point to a specific point in the superview's frame. Use NSLayoutAttributeNotAnAttribute to only pin in one dimension
+-(void)pinPointAtX:(NSLayoutAttribute)x Y:(NSLayoutAttribute)y toPoint:(CGPoint)point;
+
 @end

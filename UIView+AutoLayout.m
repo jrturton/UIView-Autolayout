@@ -98,4 +98,24 @@
          [self addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:0 constant:size.height]];
 }
 
+-(void)pinPointAtX:(NSLayoutAttribute)x Y:(NSLayoutAttribute)y toPoint:(CGPoint)point
+{
+    UIView *superview = self.superview;
+    NSAssert(superview,@"Can't create constraints without a superview");
+    
+    // Valid X positions are Left, Center, Right and Not An Attribute
+    BOOL xValid = (x == NSLayoutAttributeLeft || x == NSLayoutAttributeCenterX || x == NSLayoutAttributeRight || x == NSLayoutAttributeNotAnAttribute);
+    // Valid Y positions are Top, Center, Baseline, Bottom and Not An Attribute
+    BOOL yValid = (y == NSLayoutAttributeTop || y == NSLayoutAttributeCenterY || y == NSLayoutAttributeBaseline || y == NSLayoutAttributeBottom || y == NSLayoutAttributeNotAnAttribute);
+    
+    NSAssert (xValid && yValid,@"Invalid positions for creating constraints");
+    
+    if (x != NSLayoutAttributeNotAnAttribute)
+        [superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:x relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:point.x]];
+    
+    if (y != NSLayoutAttributeNotAnAttribute)
+        [superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:y relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:point.y]];
+    
+}
+
 @end
