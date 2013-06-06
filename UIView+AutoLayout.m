@@ -32,6 +32,16 @@
     [superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:axis relatedBy:NSLayoutRelationEqual toItem:superview attribute:axis multiplier:1.0 constant:0.0]];
 }
 
+// Not sure how to check that an attribute is of type NSLayoutAttribute without asserting it == to every possible combination.
+-(void)pinAttribute:(NSLayoutAttribute)attribute toView:(UIView *)peerView
+{
+    NSParameterAssert(peerView);
+    UIView *superview = self.superview;
+    NSAssert(superview,@"Can't create constraints without a superview");
+    NSAssert(superview == peerView.superview,@"Can't create constraints between views that don't share a superview");
+    [superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:peerView attribute:attribute multiplier:1.0 constant:0.0]];
+}
+
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset
 {
     UIView *superview = self.superview;

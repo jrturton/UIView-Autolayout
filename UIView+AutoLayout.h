@@ -24,6 +24,9 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 -(void)centerInView:(UIView*)superview;
 -(void)centerInContainerOnAxis:(NSLayoutAttribute)axis;
 
+// Pin an attribute to the same attribute on another view. EG: Set your centerX to their centerX
+-(void)pinAttribute:(NSLayoutAttribute)attribute toView:(UIView *)peerView;
+
 /// Pins a view to a specific edge(s) of its superview, with a specified inset
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset;
 
