@@ -128,4 +128,45 @@
     
 }
 
+-(void)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options;
+{
+    NSAssert([views count] > 1,@"Can only distribute 2 or more views");
+    NSString *direction = nil;
+    switch (axis) {
+        case UILayoutConstraintAxisHorizontal:
+            direction = @"H:";
+            break;
+        case UILayoutConstraintAxisVertical:
+            direction = @"V:";
+            break;
+        default:
+            return;
+    }
+    
+    UIView *previousView = nil;
+    NSDictionary *metrics = @{@"spacing":@(spacing)};
+    NSString *vfl = nil;
+    for (UIView *view in views)
+    {
+        vfl = nil;
+        NSDictionary *views = nil;
+        if (previousView)
+        {
+            vfl = [NSString stringWithFormat:@"%@[previousView(==view)]-spacing-[view]",direction];
+            views = NSDictionaryOfVariableBindings(previousView,view);
+        }
+        else
+        {
+            vfl = [NSString stringWithFormat:@"%@|-spacing-[view]",direction];
+            views = NSDictionaryOfVariableBindings(view);
+        }
+        
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:views]];
+        previousView = view;
+    }
+    
+    vfl = [NSString stringWithFormat:@"%@[previousView]-spacing-|",direction];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:NSDictionaryOfVariableBindings(previousView)]];
+}
+
 @end
