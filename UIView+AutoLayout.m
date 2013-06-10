@@ -93,10 +93,15 @@
 {
     UIView *superview = self.superview;
     NSAssert(superview,@"Can't create constraints without a superview");
-    NSAssert(superview == peerView.superview,@"Can't create constraints between views that don't share a superview");
+    NSAssert(superview == peerView.superview,@"Can't create constraints between views that don't share the same immediate superview. Use `pinEdge:toEdge:ofView:withSuperview:inset:` instead.");
     NSAssert (edge >= NSLayoutAttributeLeft && edge <= NSLayoutAttributeBottom,@"Edge parameter is not an edge");
     NSAssert (toEdge >= NSLayoutAttributeLeft && toEdge <= NSLayoutAttributeBottom,@"Edge parameter is not an edge");
     
+    [self pinEdge:edge toEdge:toEdge ofView:peerView withSuperview:superview inset:inset];
+}
+
+-(void)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView withSuperview:(UIView*)superview inset:(CGFloat)inset
+{
     [superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:edge relatedBy:NSLayoutRelationEqual toItem:peerView attribute:toEdge multiplier:1.0 constant:inset]];
 }
 

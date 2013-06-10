@@ -36,6 +36,7 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 /// Pins a view's edge to a peer view's edge
 -(void)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView;
 -(void)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView inset:(CGFloat)inset;
+-(void)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView withSuperview:(UIView*)superview inset:(CGFloat)inset;
 
 /// Set to a specific size. 0 in any axis results in no constraint being applied.
 -(void)constrainToSize:(CGSize)size;
