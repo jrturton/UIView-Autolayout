@@ -32,13 +32,13 @@
     [superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:axis relatedBy:NSLayoutRelationEqual toItem:superview attribute:axis multiplier:1.0 constant:0.0]];
 }
 
-// Not sure how to check that an attribute is of type NSLayoutAttribute without asserting it == to every possible combination.
--(void)pinAttribute:(NSLayoutAttribute)attribute toView:(UIView *)peerView
+
+-(void)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView;
 {
     NSParameterAssert(peerView);
-    UIView *superview = self.superview;
-    NSAssert(superview,@"Can't create constraints without a superview");
-    NSAssert(superview == peerView.superview,@"Can't create constraints between views that don't share a superview");
+    UIView *superview = [self commonSuperviewWithView:peerView];
+    NSAssert(superview,@"Can't create constraints without a common superview");
+
     [superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:peerView attribute:attribute multiplier:1.0 constant:0.0]];
 }
 
@@ -91,9 +91,8 @@
 
 -(void)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView inset:(CGFloat)inset
 {
-    UIView *superview = self.superview;
-    NSAssert(superview,@"Can't create constraints without a superview");
-    NSAssert(superview == peerView.superview,@"Can't create constraints between views that don't share a superview");
+    UIView *superview = [self commonSuperviewWithView:peerView];
+    NSAssert(superview,@"Can't create constraints without a common superview");
     NSAssert (edge >= NSLayoutAttributeLeft && edge <= NSLayoutAttributeBottom,@"Edge parameter is not an edge");
     NSAssert (toEdge >= NSLayoutAttributeLeft && toEdge <= NSLayoutAttributeBottom,@"Edge parameter is not an edge");
     
@@ -167,6 +166,21 @@
     
     vfl = [NSString stringWithFormat:@"%@[previousView]-spacing-|",direction];
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:NSDictionaryOfVariableBindings(previousView)]];
+}
+
+-(UIView*)commonSuperviewWithView:(UIView*)peerView
+{
+    UIView *commonSuperview = nil;
+    UIView *startView = self;
+    do {
+        if ([peerView isDescendantOfView:startView])
+        {
+            commonSuperview = startView;
+        }
+        startView = startView.superview;
+    } while (startView && !commonSuperview);
+    
+    return commonSuperview;
 }
 
 @end
