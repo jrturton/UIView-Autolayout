@@ -21,11 +21,11 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 +(id)autoLayoutView;
 
 /// Centers the receiver in the superview
--(void)centerInView:(UIView*)superview;
--(void)centerInContainerOnAxis:(NSLayoutAttribute)axis;
+-(NSArray *)centerInView:(UIView*)superview;
+-(NSLayoutConstraint *)centerInContainerOnAxis:(NSLayoutAttribute)axis;
 
 // Pin an attribute to the same attribute on another view. Both views must be in the same view hierarchy
--(void)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView;
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView;
 
 /// Pins a view to a specific edge(s) of its superview, with a specified inset
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset;
@@ -34,11 +34,11 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 -(NSArray*)pinToSuperviewEdgesWithInset:(UIEdgeInsets)insets;
 
 /// Pins a view's edge to a peer view's edge. Both views must be in the same view hierarchy
--(void)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView;
--(void)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView inset:(CGFloat)inset;
+-(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView;
+-(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView *)peerView inset:(CGFloat)inset;
 
 /// Set to a specific size. 0 in any axis results in no constraint being applied.
--(void)constrainToSize:(CGSize)size;
+-(NSArray *)constrainToSize:(CGSize)size;
 
 /// Pins a point to a specific point in the superview's frame. Use NSLayoutAttributeNotAnAttribute to only pin in one dimension
 -(void)pinPointAtX:(NSLayoutAttribute)x Y:(NSLayoutAttribute)y toPoint:(CGPoint)point;
