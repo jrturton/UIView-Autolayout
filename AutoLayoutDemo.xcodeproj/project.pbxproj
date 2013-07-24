@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF2750331EA5D220BC0BE076 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2756104BAC3B7E87E6A72F /* MainViewController.m */; };
 		DF27523E519F0B370A968EA1 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = DF27549540A067D3E998069D /* Default.png */; };
 		DF2752742BCEC480FB36B203 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF275B84E4C60B85C4577C3D /* AppDelegate.m */; };
 		DF2752F18242108B2571F69C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF27568AFD3635C145871BEF /* UIKit.framework */; };
@@ -26,6 +27,7 @@
 		DF2754EB50EBF6ADC135166E /* AutoLayoutDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoLayoutDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF2754F0F63B684F1B6EA09A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DF2755AC9ACD5C6AFF43DE2F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DF2756104BAC3B7E87E6A72F /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		DF27568AFD3635C145871BEF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		DF2756B5EEE59CC08B73A3B3 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		DF27574CE5E34767CBB6F23B /* AutoLayoutDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AutoLayoutDemo-Prefix.pch"; sourceTree = "<group>"; };
@@ -34,6 +36,7 @@
 		DF275CE190D93FC8CCFEDC27 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		DF275D7FBE5D9442CFF54286 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DF275DD4A80C301D54CF34DE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DF275E79FE3BDE14D46CDD3C /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		DF275EB0ADFBACFFAA00134E /* AutoLayoutDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = "AutoLayoutDemo-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,6 +79,8 @@
 				DF275D7FBE5D9442CFF54286 /* AppDelegate.h */,
 				DF275B84E4C60B85C4577C3D /* AppDelegate.m */,
 				DF275EEE8561F3A7961EF38D /* Source */,
+				DF2756104BAC3B7E87E6A72F /* MainViewController.m */,
+				DF275E79FE3BDE14D46CDD3C /* MainViewController.h */,
 			);
 			path = AutoLayoutDemo;
 			sourceTree = "<group>";
@@ -179,6 +184,7 @@
 				DF27552DDDFB679F9544D57C /* main.m in Sources */,
 				DF2752742BCEC480FB36B203 /* AppDelegate.m in Sources */,
 				DF2752F19E1290635A487DE3 /* UIView+AutoLayout.m in Sources */,
+				DF2750331EA5D220BC0BE076 /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
