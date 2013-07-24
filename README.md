@@ -4,6 +4,7 @@ UIView-Autolayout
 Category on UIView to simplify the creation of common layout constraints. The code is described and introduced in [this blog post](http://commandshift.co.uk/blog/2013/02/20/creating-individual-layout-constraints/).
 
 Here's the header to save you a click:
+
     /// Return a frameless view that does not automatically use autoresizing (for use in autolayouts)
     +(id)autoLayoutView;
 
@@ -32,3 +33,6 @@ Here's the header to save you a click:
 
     /// Spaces the views evenly along the selected axis. Will force the views to the same size to make them fit
     -(void)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options;
+
+
+See the AutoLayoutDemo project for example usage.
