@@ -36,7 +36,7 @@
     NSParameterAssert(superview);
     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:axis relatedBy:NSLayoutRelationEqual toItem:superview attribute:axis multiplier:1.0 constant:0.0];
     [superview addConstraint:constraint];
-    return [constraint copy];
+    return constraint;
 }
 
 
@@ -48,7 +48,7 @@
 
     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:peerView attribute:attribute multiplier:1.0 constant:0.0];
     [superview addConstraint:constraint];
-    return [constraint copy];
+    return constraint;
 }
 
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset
@@ -107,7 +107,7 @@
     
     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:edge relatedBy:NSLayoutRelationEqual toItem:peerView attribute:toEdge multiplier:1.0 constant:inset];
     [superview addConstraint:constraint];
-    return [constraint copy];
+    return constraint;
 }
 
 -(NSArray *)constrainToSize:(CGSize)size
