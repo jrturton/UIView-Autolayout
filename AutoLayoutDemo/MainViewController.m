@@ -77,18 +77,23 @@
 
 - (UIView *)randomGreyscaleView
 {
+    //Get a random value between 0 and 1
     double random = ((double)arc4random() / ARC4RANDOM_MAX);
 
+    //Create a view
     UIView *view = [UIView autoLayoutView];
 
+    //Set the random background color
     [view setBackgroundColor:[UIColor colorWithWhite:random alpha:1]];
 
+    //Add the view to the superview
     [self.blueView addSubview:view];
 
     //Constrain the width and center on the x axis
     [view constrainToSize:CGSizeMake(150, 0)];
     [view centerInContainerOnAxis:NSLayoutAttributeCenterX];
 
+    //Return the view
     return view;
 }
 
