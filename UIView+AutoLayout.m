@@ -110,6 +110,38 @@
     return constraint;
 }
 
+-(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(UIView *)peerView
+{
+    return [self pinEdges:edges toSameEdgesOfView:peerView inset:0];
+}
+
+-(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(UIView *)peerView inset:(CGFloat)inset
+{
+    UIView *superview = [self commonSuperviewWithView:peerView];
+    NSAssert(superview,@"Can't create constraints without a common superview");
+    
+    NSMutableArray *constraints = [NSMutableArray arrayWithCapacity:4];
+    
+    if (edges & JRTViewPinTopEdge)
+    {
+        [constraints addObject:[self pinEdge:NSLayoutAttributeTop toEdge:NSLayoutAttributeTop ofView:peerView inset:inset]];
+    }
+    if (edges & JRTViewPinLeftEdge)
+    {
+        [constraints addObject:[self pinEdge:NSLayoutAttributeLeft toEdge:NSLayoutAttributeLeft ofView:peerView inset:inset]];
+    }
+    if (edges & JRTViewPinRightEdge)
+    {
+        [constraints addObject:[self pinEdge:NSLayoutAttributeRight toEdge:NSLayoutAttributeRight ofView:peerView inset:-inset]];
+    }
+    if (edges & JRTViewPinBottomEdge)
+    {
+        [constraints addObject:[self pinEdge:NSLayoutAttributeBottom toEdge:NSLayoutAttributeBottom ofView:peerView inset:-inset]];
+    }
+    [superview addConstraints:constraints];
+    return [constraints copy];
+}
+
 -(NSArray *)constrainToSize:(CGSize)size
 {
     NSMutableArray *constraints = [NSMutableArray new];
