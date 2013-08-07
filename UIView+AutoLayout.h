@@ -39,8 +39,6 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 
 /// Pins a views edge(s) to another views edge(s). Both views must be in the same view hierarchy.
 -(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(UIView *)peerView;
-
-/// Pins a views edge(s) to another views edge(s), with the specified inset. Both views must be in the same view hierarchy.
 -(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(UIView *)peerView inset:(CGFloat)inset;
 
 /// Set to a specific size. 0 in any axis results in no constraint being applied.
