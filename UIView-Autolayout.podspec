@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.author       = { 'Richard Turton' => 'jrturton@gmail.com' }
   s.source       = { :git => 'https://github.com/jrturton/UIView-Autolayout.git', :tag => s.version.to_s }
   
-  s.source_files = '*.{h,m}'
+  s.source_files = 'Source/*.{h,m}'
   
   s.requires_arc = true
 end

@@ -37,3 +37,5 @@ Here's the header to save you a click:
 
     /// Spaces the views evenly along the selected axis. Will force the views to the same size to make them fit
     -(void)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options;
+
+See the AutoLayoutDemo project for example usage.
