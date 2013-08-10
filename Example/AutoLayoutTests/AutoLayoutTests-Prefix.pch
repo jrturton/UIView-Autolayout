@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'AutoLayoutTests' target in the 'AutoLayoutTests' project
+//
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
