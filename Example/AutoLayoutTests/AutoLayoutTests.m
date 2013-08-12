@@ -20,6 +20,13 @@ SpecBegin(AutoLayoutSpec)
 
 describe(@"AutoLayout helpers", ^{
    
+    context(@"when initializing views", ^{
+        it(@"returns a view without translated autoresizing masks", ^{
+            UIView *view = [UIView autoLayoutView];
+            expect(view.translatesAutoresizingMaskIntoConstraints).to.beFalsy();
+        });
+    });
+    
     context(@"when centering views", ^{
         __block UIView *superview = nil;
         __block UIView *subview = nil;
@@ -59,6 +66,42 @@ describe(@"AutoLayout helpers", ^{
         
     });
     
+    context(@"when constraining size", ^{
+        __block UIView *view = nil;
+        
+        beforeEach(^{
+            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        });
+        
+        NSLayoutConstraint *(^sizeConstraintWithAttributeAndSize)(NSLayoutAttribute, CGFloat) = ^ NSLayoutConstraint * (NSLayoutAttribute axis, CGFloat size) {
+            return [NSLayoutConstraint constraintWithItem:view
+                                                attribute:axis
+                                                relatedBy:NSLayoutRelationEqual
+                                                   toItem:nil
+                                                attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0f constant:size];
+        };
+        
+        it(@"constrains just the width", ^{
+            [view constrainToSize:CGSizeMake(100, 0)];
+            
+            expect(view).to.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeWidth, 100));
+            expect(view).notTo.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeHeight, 100));
+        });
+        
+        it(@"constrains just the height", ^{
+            [view constrainToSize:CGSizeMake(0, 100)];
+            
+            expect(view).to.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeHeight, 100));
+            expect(view).notTo.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeWidth, 100));
+        });
+        
+        it(@"constrains both width and height", ^{
+            [view constrainToSize:CGSizeMake(100, 100)];
+            
+            expect(view).to.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeHeight, 100));
+            expect(view).to.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeWidth, 100));
+        });
+    });
 });
 
 SpecEnd
