@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		60044DEA1805E69000598CBC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60044DE91805E69000598CBC /* Default-568h@2x.png */; };
+		17813B7017C2A1D800DF59BC /* EXPMatchers+haveFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 17813B6F17C2A1D800DF59BC /* EXPMatchers+haveFrame.m */; };
 		17CB469317B69E5F0070DAC0 /* EXPMatchers+haveConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 17CB469217B69E5F0070DAC0 /* EXPMatchers+haveConstraint.m */; };
 		17D0945B17B69B9C0088F766 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17D0945A17B69B9C0088F766 /* SenTestingKit.framework */; };
 		17D0945C17B69B9C0088F766 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF27568AFD3635C145871BEF /* UIKit.framework */; };
@@ -30,6 +31,8 @@
 		60044DE91805E69000598CBC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		028D185B63B143A3BC69EF27 /* libPods-AutoLayoutTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AutoLayoutTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A6AF7F801B4C939AC6D9FF /* Pods/Pods-AutoLayoutTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods/Pods-AutoLayoutTests.xcconfig"; sourceTree = SOURCE_ROOT; };
+		17813B6E17C2A1D800DF59BC /* EXPMatchers+haveFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EXPMatchers+haveFrame.h"; sourceTree = "<group>"; };
+		17813B6F17C2A1D800DF59BC /* EXPMatchers+haveFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EXPMatchers+haveFrame.m"; sourceTree = "<group>"; };
 		17CB469117B69E5F0070DAC0 /* EXPMatchers+haveConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EXPMatchers+haveConstraint.h"; sourceTree = "<group>"; };
 		17CB469217B69E5F0070DAC0 /* EXPMatchers+haveConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EXPMatchers+haveConstraint.m"; sourceTree = "<group>"; };
 		17D0945917B69B9C0088F766 /* AutoLayoutTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutoLayoutTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +99,8 @@
 				17D0946717B69B9C0088F766 /* AutoLayoutTests-Prefix.pch */,
 				17CB469117B69E5F0070DAC0 /* EXPMatchers+haveConstraint.h */,
 				17CB469217B69E5F0070DAC0 /* EXPMatchers+haveConstraint.m */,
+				17813B6E17C2A1D800DF59BC /* EXPMatchers+haveFrame.h */,
+				17813B6F17C2A1D800DF59BC /* EXPMatchers+haveFrame.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -307,6 +312,7 @@
 				17D0946617B69B9C0088F766 /* AutoLayoutTests.m in Sources */,
 				17D0946B17B69BA20088F766 /* UIView+AutoLayout.m in Sources */,
 				17CB469317B69E5F0070DAC0 /* EXPMatchers+haveConstraint.m in Sources */,
+				17813B7017C2A1D800DF59BC /* EXPMatchers+haveFrame.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

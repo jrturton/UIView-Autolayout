@@ -12,6 +12,8 @@
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
 #import "EXPMatchers+haveConstraint.h"
+#import "EXPMatchers+haveFrame.h"
+
 
 #import "UIView+AutoLayout.h"
 
@@ -20,6 +22,9 @@ SpecBegin(AutoLayoutSpec)
 
 describe(@"AutoLayout helpers", ^{
    
+    __block UIView *superview = nil;
+    __block UIView *subview = nil;
+    
     context(@"when initializing views", ^{
         it(@"returns a view without translated autoresizing masks", ^{
             UIView *view = [UIView autoLayoutView];
@@ -28,78 +33,73 @@ describe(@"AutoLayout helpers", ^{
     });
     
     context(@"when centering views", ^{
-        __block UIView *superview = nil;
-        __block UIView *subview = nil;
-        
+
         beforeEach(^{
-            superview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
-            subview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+            superview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+            subview = [UIView autoLayoutView];
+        
             [superview addSubview:subview];
+            
+            [subview constrainToSize:CGSizeMake(100, 100)];
         });
         
-        NSLayoutConstraint *(^centerConstraintWithAxis)(NSLayoutAttribute) = ^ NSLayoutConstraint * (NSLayoutAttribute axis) {
-            return [NSLayoutConstraint constraintWithItem:subview
-                                                attribute:axis
-                                                relatedBy:NSLayoutRelationEqual
-                                                   toItem:superview
-                                                attribute:axis multiplier:1.0f constant:0];
-        };
-        
         it(@"centers a view horizontally", ^{
-
+            
             [subview centerInContainerOnAxis:NSLayoutAttributeCenterX];
-
-            expect(superview).to.haveConstraint(centerConstraintWithAxis(NSLayoutAttributeCenterX));
+            [superview layoutIfNeeded];
+            
+            expect(subview.frame.origin.x).to.equal(100);
         });
 
         it(@"centers a view vertically", ^{
-            
-            [subview centerInContainerOnAxis:NSLayoutAttributeCenterY];
 
-            expect(superview).to.haveConstraint(centerConstraintWithAxis(NSLayoutAttributeCenterY));
+            [subview centerInContainerOnAxis:NSLayoutAttributeCenterY];
+            [superview layoutIfNeeded];
+            
+            expect(subview.frame.origin.y).to.equal(100);
         });
 
         it(@"centers a view within another view", ^{
            
             [subview centerInView:superview];
+            [superview layoutIfNeeded];
+            
+            expect(subview.center).to.equal(CGPointMake(150, 150));
         });
         
     });
     
     context(@"when constraining size", ^{
-        __block UIView *view = nil;
         
         beforeEach(^{
-            view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+            superview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+            subview = [UIView autoLayoutView];
+            
+            [superview addSubview:subview];
         });
         
-        NSLayoutConstraint *(^sizeConstraintWithAttributeAndSize)(NSLayoutAttribute, CGFloat) = ^ NSLayoutConstraint * (NSLayoutAttribute axis, CGFloat size) {
-            return [NSLayoutConstraint constraintWithItem:view
-                                                attribute:axis
-                                                relatedBy:NSLayoutRelationEqual
-                                                   toItem:nil
-                                                attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0f constant:size];
-        };
-        
         it(@"constrains just the width", ^{
-            [view constrainToSize:CGSizeMake(100, 0)];
-            
-            expect(view).to.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeWidth, 100));
-            expect(view).notTo.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeHeight, 100));
+            [subview constrainToSize:CGSizeMake(100, 0)];
+            [superview layoutIfNeeded];
+
+            expect(subview.bounds.size.width).will.equal(100);
+            expect(subview.bounds.size.height).will.equal(0);
         });
         
         it(@"constrains just the height", ^{
-            [view constrainToSize:CGSizeMake(0, 100)];
+            [subview constrainToSize:CGSizeMake(0, 100)];
+            [superview layoutIfNeeded];
             
-            expect(view).to.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeHeight, 100));
-            expect(view).notTo.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeWidth, 100));
+            expect(subview.bounds.size.width).will.equal(0);
+            expect(subview.bounds.size.height).will.equal(100);
         });
         
         it(@"constrains both width and height", ^{
-            [view constrainToSize:CGSizeMake(100, 100)];
+            [subview constrainToSize:CGSizeMake(100, 100)];
+            [superview layoutIfNeeded];
             
-            expect(view).to.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeHeight, 100));
-            expect(view).to.haveConstraint(sizeConstraintWithAttributeAndSize(NSLayoutAttributeWidth, 100));
+            expect(subview.bounds.size.width).will.equal(100);
+            expect(subview.bounds.size.height).will.equal(100);
         });
     });
 });
