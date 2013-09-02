@@ -155,7 +155,7 @@
     return [constraints copy];
 }
 
--(void)pinPointAtX:(NSLayoutAttribute)x Y:(NSLayoutAttribute)y toPoint:(CGPoint)point
+-(NSArray*)pinPointAtX:(NSLayoutAttribute)x Y:(NSLayoutAttribute)y toPoint:(CGPoint)point
 {
     UIView *superview = self.superview;
     NSAssert(superview,@"Can't create constraints without a superview");
@@ -167,12 +167,21 @@
     
     NSAssert (xValid && yValid,@"Invalid positions for creating constraints");
     
+    NSMutableArray *constraints = [NSMutableArray array];
+    
     if (x != NSLayoutAttributeNotAnAttribute)
-        [superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:x relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:point.x]];
+    {
+        NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:x relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeLeft multiplier:1.0 constant:point.x];
+        [constraints addObject:constraint];
+    }
     
     if (y != NSLayoutAttributeNotAnAttribute)
-        [superview addConstraint:[NSLayoutConstraint constraintWithItem:self attribute:y relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:point.y]];
-    
+    {
+        NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:y relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1.0 constant:point.y];
+        [constraints addObject:constraint];
+    }
+    [superview addConstraints:constraints];
+    return [constraints copy];
 }
 
 -(void)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options;
