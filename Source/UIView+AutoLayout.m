@@ -155,6 +155,37 @@
     return [constraints copy];
 }
 
+-(NSArray *)constrainToMinimumSize:(CGSize)minimum maximumSize:(CGSize)maximum
+{
+    NSAssert(minimum.width <= maximum.width, @"maximum width should be strictly wider than or equal to minimum width");
+    NSAssert(minimum.height <= maximum.height, @"maximum height should be strictly higher than or equal to minimum height");
+    NSArray *minimumConstraints = [self constrainToMinimumSize:minimum];
+    NSArray *maximumConstraints = [self constrainToMaximumSize:maximum];
+    return [minimumConstraints arrayByAddingObjectsFromArray:maximumConstraints];
+}
+
+-(NSArray *)constrainToMinimumSize:(CGSize)minimum
+{
+    NSMutableArray *constraints = [NSMutableArray array];
+    if (minimum.width)
+        [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:0 multiplier:0 constant:minimum.width]];
+    if (minimum.height)
+        [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:nil attribute:0 multiplier:0 constant:minimum.height]];
+    [self addConstraints:constraints];
+    return [constraints copy];
+}
+
+-(NSArray *)constrainToMaximumSize:(CGSize)maximum
+{
+    NSMutableArray *constraints = [NSMutableArray array];
+    if (maximum.width)
+        [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:0 multiplier:0 constant:maximum.width]];
+    if (maximum.height)
+        [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationLessThanOrEqual toItem:nil attribute:0 multiplier:0 constant:maximum.height]];
+    [self addConstraints:constraints];
+    return [constraints copy];
+}
+
 -(NSArray*)pinPointAtX:(NSLayoutAttribute)x Y:(NSLayoutAttribute)y toPoint:(CGPoint)point
 {
     UIView *superview = self.superview;
