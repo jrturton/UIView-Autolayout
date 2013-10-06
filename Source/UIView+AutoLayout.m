@@ -7,6 +7,9 @@
 //
 
 #import "UIView+AutoLayout.h"
+#import <objc/runtime.h>
+
+static char UIViewConstraintKey;
 
 @implementation UIView (AutoLayout)
 
@@ -142,16 +145,29 @@
     return [constraints copy];
 }
 
+-(NSLayoutConstraint *)constrainToWidth:(CGFloat)width
+{
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:0 constant:width];
+    [self addConstraint:constraint];
+    return constraint;
+}
+
+-(NSLayoutConstraint *)constrainToHeight:(CGFloat)height
+{
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:0 constant:height];
+    [self addConstraint:constraint];
+    return constraint;
+}
+
 -(NSArray *)constrainToSize:(CGSize)size
 {
     NSMutableArray *constraints = [NSMutableArray new];
 
     if (size.width)
-        [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:0 constant:size.width]];
+        [constraints addObject:[self constrainToWidth:size.width]];
     if (size.height)
-         [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:0 constant:size.height]];
+         [constraints addObject:[self constrainToHeight:size.height]];
 
-    [self addConstraints:constraints];
     return [constraints copy];
 }
 
@@ -269,6 +285,19 @@
     } while (startView && !commonSuperview);
     
     return commonSuperview;
+}
+
+-(void)storeConstraint:(NSLayoutConstraint *)constraint forKey:(id)key
+{
+    NSMutableDictionary *constraints = objc_getAssociatedObject(self, &UIViewConstraintKey) ?: [NSMutableDictionary dictionary];
+    constraints[key] = constraint;
+    objc_setAssociatedObject(self, &UIViewConstraintKey, constraints, OBJC_ASSOCIATION_RETAIN);
+}
+
+-(NSLayoutConstraint *)storedConstraintForKey:(id)key
+{
+    NSDictionary *constraints = objc_getAssociatedObject(self, &UIViewConstraintKey);
+    return constraints[key];
 }
 
 @end
