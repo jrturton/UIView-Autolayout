@@ -59,4 +59,8 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 /// Spaces the views evenly along the selected axis. Will force the views to the same size to make them fit
 -(void)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options;
 
+/// It is often useful to store a reference to a constraint for modifications and animations
+-(void)storeConstraint:(NSLayoutConstraint *)constraint forKey:(id)key;
+-(NSLayoutConstraint *)storedConstraintForKey:(id)key;
+
 @end

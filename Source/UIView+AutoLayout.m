@@ -7,6 +7,9 @@
 //
 
 #import "UIView+AutoLayout.h"
+#import <objc/runtime.h>
+
+static char UIViewConstraintKey;
 
 @implementation UIView (AutoLayout)
 
@@ -269,6 +272,19 @@
     } while (startView && !commonSuperview);
     
     return commonSuperview;
+}
+
+-(void)storeConstraint:(NSLayoutConstraint *)constraint forKey:(id)key
+{
+    NSMutableDictionary *constraints = objc_getAssociatedObject(self, &UIViewConstraintKey) ?: [NSMutableDictionary dictionary];
+    constraints[key] = constraint;
+    objc_setAssociatedObject(self, &UIViewConstraintKey, constraints, OBJC_ASSOCIATION_RETAIN);
+}
+
+-(NSLayoutConstraint *)storedConstraintForKey:(id)key
+{
+    NSDictionary *constraints = objc_getAssociatedObject(self, &UIViewConstraintKey);
+    return constraints[key];
 }
 
 @end
