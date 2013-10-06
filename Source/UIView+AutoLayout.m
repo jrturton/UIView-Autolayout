@@ -147,12 +147,16 @@ static char UIViewConstraintKey;
 
 -(NSLayoutConstraint *)constrainToWidth:(CGFloat)width
 {
-    return [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:0 constant:width];
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:0 constant:width];
+    [self addConstraint:constraint];
+    return constraint;
 }
 
 -(NSLayoutConstraint *)constrainToHeight:(CGFloat)height
 {
-    return [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:0 constant:height];
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:0 multiplier:0 constant:height];
+    [self addConstraint:constraint];
+    return constraint;
 }
 
 -(NSArray *)constrainToSize:(CGSize)size
@@ -164,7 +168,6 @@ static char UIViewConstraintKey;
     if (size.height)
          [constraints addObject:[self constrainToHeight:size.height]];
 
-    [self addConstraints:constraints];
     return [constraints copy];
 }
 
