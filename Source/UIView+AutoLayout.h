@@ -44,6 +44,10 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 /// Set to a specific size. 0 in any axis results in no constraint being applied.
 -(NSArray *)constrainToSize:(CGSize)size;
 
+/// Set to a specific width or height.
+-(NSLayoutConstraint *)constrainToWidth:(CGFloat)width;
+-(NSLayoutConstraint *)constrainToHeight:(CGFloat)height;
+
 // Set minimum and maximum sizes. 0 in any axis results in no constraint in that direction. (e.g. 0 maximumHeight means no max height)
 -(NSArray *)constrainToMinimumSize:(CGSize)minimum maximumSize:(CGSize)maximum;
 
