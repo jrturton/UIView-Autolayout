@@ -15,7 +15,11 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    self.window.rootViewController = [MainViewController new];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[MainViewController new]];
+    navigationController.title = @"Tab";
+    UITabBarController *tabBarController = [[UITabBarController alloc] init];
+    tabBarController.viewControllers = @[navigationController];
+    self.window.rootViewController = tabBarController;
 
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

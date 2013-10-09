@@ -22,6 +22,11 @@
 
 @implementation MainViewController
 
+- (NSString *)title
+{
+    return @"Autolayout";
+}
+
 - (void)loadView
 {
     [super loadView];
@@ -53,7 +58,7 @@
     //Constrain our views
 
     //Constrain a flexible sized view 10pt inset from all edges of superview
-    [self.redView pinToSuperviewEdges:JRTViewPinAllEdges inset:10];
+    [self.redView pinToSuperviewEdges:JRTViewPinAllEdges inset:10 usingLayoutGuidesFrom:self];
 
     //Constrain a fixed sized view (100x100) centered on the x axis and 10pts inset from the top of the superview
     [self.greenView constrainToSize:CGSizeMake(100, 100)];
@@ -63,7 +68,7 @@
     //Constrain a fixed width view with a flexible height inset 10pts below greenView and 10pts in from the bottom of its superview
     [self.blueView constrainToSize:CGSizeMake(200, 0)];
     [self.blueView centerInContainerOnAxis:NSLayoutAttributeCenterX];
-    [self.blueView pinEdge:NSLayoutAttributeTop toEdge:NSLayoutAttributeBottom ofView:self.greenView inset:10];
+    [self.blueView pinEdge:NSLayoutAttributeTop toEdge:NSLayoutAttributeBottom ofItem:self.greenView inset:10];
     [self.blueView pinToSuperviewEdges:JRTViewPinBottomEdge inset:10];
 
     //Constrain multiple child views along the Y axis with 10pt spacing
