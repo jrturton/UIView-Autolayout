@@ -8,6 +8,8 @@
 
 #import "UIView+AutoLayout.h"
 
+#import <Availability.h>
+
 @implementation UIView (AutoLayout)
 
 +(id)autoLayoutView
@@ -64,11 +66,13 @@
     id topItem = nil;
     id bottomItem = nil;
 
+#ifdef __IPHONE_7_0
     if (viewController && [viewController respondsToSelector:@selector(topLayoutGuide)])
     {
         topItem = viewController.topLayoutGuide;
         bottomItem = viewController.bottomLayoutGuide;
     }
+#endif
 
     NSMutableArray *constraints = [NSMutableArray new];
 
