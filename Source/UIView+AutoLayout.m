@@ -124,7 +124,7 @@
 
 - (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem
 {
-    return [self pinEdge:edge toEdge:edge ofItem:peerItem inset:0.0];
+    return [self pinEdge:edge toEdge:toEdge ofItem:peerItem inset:0.0];
 }
 
 - (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset
