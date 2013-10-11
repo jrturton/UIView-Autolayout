@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UIView *blueView;
 @property (nonatomic, strong) UIView *orangeView;
 
+@property(nonatomic, strong) UIView *magentaView;
 @end
 
 @implementation MainViewController
@@ -43,17 +44,16 @@
 
     self.orangeView = [UIView autoLayoutView];
     self.orangeView.backgroundColor = [UIColor orangeColor];
+    
+    self.magentaView = [UIView autoLayoutView];
+    self.magentaView.backgroundColor = [UIColor magentaColor];
 
     //Add them to their superview
     [self.view addSubview:self.redView];
     [self.redView addSubview:self.greenView];
     [self.redView addSubview:self.blueView];
     [self.greenView addSubview:self.orangeView];
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
+    [self.greenView addSubview:self.magentaView];
 
     //Constrain our views
 
@@ -78,6 +78,26 @@
     //Pin the top left of a fixed size view (25x25) to a specified point (15x15)
     [self.orangeView constrainToSize:CGSizeMake(25, 25)];
     [self.orangeView pinPointAtX:NSLayoutAttributeLeft Y:NSLayoutAttributeTop toPoint:CGPointMake(15, 15)];
+
+    [self.magentaView pinAttribute:NSLayoutAttributeBottom toSameAttributeOfView:self.orangeView];
+    [self.magentaView pinEdge:NSLayoutAttributeTop toEdge:NSLayoutAttributeTop ofItem:self.orangeView];
+    [self.magentaView pinEdge:NSLayoutAttributeLeft toEdge:NSLayoutAttributeRight ofItem:self.orangeView inset:20.0];
+    [self.magentaView constrainToWidth:25.0];
+
+    UIView *pupil = [UIView autoLayoutView];
+    pupil.backgroundColor = [UIColor blackColor];
+    [self.magentaView addSubview:pupil];
+    [pupil constrainToSize:CGSizeMake(10.0, 10.0)];
+    [pupil centerInView:self.magentaView];
+
+    UIView *hair = [UIView autoLayoutView];
+    hair.backgroundColor = [UIColor yellowColor];
+    [self.redView addSubview:hair];
+    [hair pinEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge toSameEdgesOfView:self.greenView];
+    [hair constrainToMinimumSize:CGSizeMake(0.0, 4.0)];
+    [hair pinEdge:NSLayoutAttributeBottom toEdge:NSLayoutAttributeTop ofItem:self.greenView inset:-1.0];
+
+
 }
 
 - (UIView *)randomGreyscaleView
