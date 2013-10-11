@@ -18,7 +18,7 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 
 @interface UIView (AutoLayout)
 /// Return a frameless view that does not automatically use autoresizing (for use in autolayouts)
-+(id)autoLayoutView;
++(instancetype)autoLayoutView;
 
 /// Centers the receiver in the superview
 -(NSArray *)centerInView:(UIView*)superview;

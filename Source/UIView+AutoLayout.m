@@ -12,7 +12,7 @@
 
 @implementation UIView (AutoLayout)
 
-+(id)autoLayoutView
++(instancetype)autoLayoutView
 {
     UIView *viewToReturn = [self new];
     viewToReturn.translatesAutoresizingMaskIntoConstraints = NO;
@@ -102,10 +102,7 @@
 
 
 -(NSArray*)pinToSuperviewEdgesWithInset:(UIEdgeInsets)insets
-{
-    __unused UIView *superview = self.superview;
-    NSAssert(superview,@"Can't pin to a superview if no superview exists");
-    
+{    
     NSMutableArray *constraints = [NSMutableArray new];
     
     [constraints addObjectsFromArray:[self pinToSuperviewEdges:JRTViewPinTopEdge inset:insets.top]];
