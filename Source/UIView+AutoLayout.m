@@ -8,6 +8,8 @@
 
 #import "UIView+AutoLayout.h"
 
+#import <Availability.h>
+
 @implementation UIView (AutoLayout)
 
 +(id)autoLayoutView
@@ -64,11 +66,13 @@
     id topItem = nil;
     id bottomItem = nil;
 
+#ifdef __IPHONE_7_0
     if (viewController && [viewController respondsToSelector:@selector(topLayoutGuide)])
     {
         topItem = viewController.topLayoutGuide;
         bottomItem = viewController.bottomLayoutGuide;
     }
+#endif
 
     NSMutableArray *constraints = [NSMutableArray new];
 
@@ -99,7 +103,7 @@
 
 -(NSArray*)pinToSuperviewEdgesWithInset:(UIEdgeInsets)insets
 {
-    UIView *superview = self.superview;
+    __unused UIView *superview = self.superview;
     NSAssert(superview,@"Can't pin to a superview if no superview exists");
     
     NSMutableArray *constraints = [NSMutableArray new];
@@ -244,9 +248,9 @@
     NSAssert(superview,@"Can't create constraints without a superview");
     
     // Valid X positions are Left, Center, Right and Not An Attribute
-    BOOL xValid = (x == NSLayoutAttributeLeft || x == NSLayoutAttributeCenterX || x == NSLayoutAttributeRight || x == NSLayoutAttributeNotAnAttribute);
+    __unused BOOL xValid = (x == NSLayoutAttributeLeft || x == NSLayoutAttributeCenterX || x == NSLayoutAttributeRight || x == NSLayoutAttributeNotAnAttribute);
     // Valid Y positions are Top, Center, Baseline, Bottom and Not An Attribute
-    BOOL yValid = (y == NSLayoutAttributeTop || y == NSLayoutAttributeCenterY || y == NSLayoutAttributeBaseline || y == NSLayoutAttributeBottom || y == NSLayoutAttributeNotAnAttribute);
+    __unused BOOL yValid = (y == NSLayoutAttributeTop || y == NSLayoutAttributeCenterY || y == NSLayoutAttributeBaseline || y == NSLayoutAttributeBottom || y == NSLayoutAttributeNotAnAttribute);
     
     NSAssert (xValid && yValid,@"Invalid positions for creating constraints");
     
