@@ -3,8 +3,6 @@
 //  CollectionTableGrid
 //
 //  Created by Richard Turton on 18/10/2012.
-//  Copyright (c) 2012 Richard Turton. All rights reserved.
-//
 
 #import "UIView+AutoLayout.h"
 
