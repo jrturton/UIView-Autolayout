@@ -307,6 +307,35 @@
     [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:NSDictionaryOfVariableBindings(previousView)]];
 }
 
+-(void)spaceViews:(NSArray *)views onAxis:(UILayoutConstraintAxis)axis
+{
+    NSAssert([views count] > 1,@"Can only distribute 2 or more views");
+
+    NSLayoutAttribute attributeForView;
+    NSLayoutAttribute attributeToPin;
+
+    switch (axis) {
+        case UILayoutConstraintAxisHorizontal:
+            attributeForView = NSLayoutAttributeCenterX;
+            attributeToPin = NSLayoutAttributeRight;
+            break;
+        case UILayoutConstraintAxisVertical:
+            attributeForView = NSLayoutAttributeCenterY;
+            attributeToPin = NSLayoutAttributeBottom;
+            break;
+        default:
+            return;
+    }
+
+    CGFloat fractionPerView = 1.0 / (CGFloat)([views count] + 1);
+
+    [views enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop)
+    {
+        CGFloat multiplier = fractionPerView * (idx + 1.0);
+        [self addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:attributeForView relatedBy:NSLayoutRelationEqual toItem:self attribute:attributeToPin multiplier:multiplier constant:0.0]];
+    }];
+}
+
 -(UIView*)commonSuperviewWithView:(UIView*)peerView
 {
     UIView *commonSuperview = nil;

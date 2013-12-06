@@ -97,6 +97,25 @@
     [hair constrainToMinimumSize:CGSizeMake(0.0, 4.0)];
     [hair pinEdge:NSLayoutAttributeBottom toEdge:NSLayoutAttributeTop ofItem:self.greenView inset:-1.0];
 
+    UIView *arm = [UIView autoLayoutView];
+    [self.view addSubview:arm];
+    [arm pinEdge:NSLayoutAttributeRight toEdge:NSLayoutAttributeLeft ofItem:self.blueView inset:-10.0];
+    [arm pinAttribute:NSLayoutAttributeTop toSameAttributeOfView:self.blueView];
+    [arm constrainToSize:CGSizeMake(20.0, 200.0)];
+    arm.backgroundColor = [UIColor grayColor];
+
+    NSMutableArray *tiles = [NSMutableArray new];
+    for (int i = 0; i < 5; i++)
+    {
+        UIView *panel = [UIView autoLayoutView];
+        [arm addSubview:panel];
+        panel.backgroundColor = [UIColor blackColor];
+        [panel constrainToSize:CGSizeMake(10.0, 10.0)];
+        [panel centerInContainerOnAxis:NSLayoutAttributeCenterX];
+        [tiles addObject:panel];
+    }
+
+    [arm spaceViews:tiles onAxis:UILayoutConstraintAxisVertical];
 
 }
 
