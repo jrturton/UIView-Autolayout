@@ -23,7 +23,10 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 -(NSLayoutConstraint *)centerInContainerOnAxis:(NSLayoutAttribute)axis;
 
 // Pin an attribute to the same attribute on another view. Both views must be in the same view hierarchy
--(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView;
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView __deprecated;
+
+/// Pins an attribute to the same attribute of the peer item. The item may be the layout guide of a view controller
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfItem:(id)peerItem;
 
 /// Pins a view to a specific edge(s) of its superview, with a specified inset
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset;
