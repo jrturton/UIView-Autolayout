@@ -39,14 +39,34 @@
     return constraint;
 }
 
-
--(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView;
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView
 {
     NSParameterAssert(peerView);
     UIView *superview = [self commonSuperviewWithView:peerView];
     NSAssert(superview,@"Can't create constraints without a common superview");
 
     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:peerView attribute:attribute multiplier:1.0 constant:0.0];
+    [superview addConstraint:constraint];
+    return constraint;
+}
+
+
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfItem:(id)peerItem
+{
+    NSParameterAssert(peerItem);
+    UIView *superview;
+    if ([peerItem isKindOfClass:[UIView class]])
+    {
+        superview = [self commonSuperviewWithView:peerItem];
+        NSAssert(superview,@"Can't create constraints without a common superview");
+    }
+    else
+    {
+        superview = self.superview;
+    }
+    NSAssert(superview,@"Can't create constraints without a common superview");
+
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:peerItem attribute:attribute multiplier:1.0 constant:0.0];
     [superview addConstraint:constraint];
     return constraint;
 }
