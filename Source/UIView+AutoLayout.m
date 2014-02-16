@@ -286,7 +286,7 @@
     return [constraints copy];
 }
 
--(void)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options;
+-(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options;
 {
     NSAssert([views count] > 1,@"Can only distribute 2 or more views");
     NSString *direction = nil;
@@ -298,12 +298,13 @@
             direction = @"V:";
             break;
         default:
-            return;
+            return @[];
     }
     
     UIView *previousView = nil;
     NSDictionary *metrics = @{@"spacing":@(spacing)};
     NSString *vfl = nil;
+    NSMutableArray *constraints = [NSMutableArray array];
     for (UIView *view in views)
     {
         vfl = nil;
@@ -319,15 +320,18 @@
             views = NSDictionaryOfVariableBindings(view);
         }
         
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:views]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:views]];
         previousView = view;
     }
     
     vfl = [NSString stringWithFormat:@"%@[previousView]-spacing-|",direction];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:NSDictionaryOfVariableBindings(previousView)]];
+    [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:NSDictionaryOfVariableBindings(previousView)]];
+    
+    [self addConstraints:constraints];
+    return [constraints copy];
 }
 
--(void)spaceViews:(NSArray *)views onAxis:(UILayoutConstraintAxis)axis
+-(NSArray*)spaceViews:(NSArray *)views onAxis:(UILayoutConstraintAxis)axis
 {
     NSAssert([views count] > 1,@"Can only distribute 2 or more views");
 
@@ -344,16 +348,20 @@
             attributeToPin = NSLayoutAttributeBottom;
             break;
         default:
-            return;
+            return @[];
     }
 
     CGFloat fractionPerView = 1.0 / (CGFloat)([views count] + 1);
-
+    
+    NSMutableArray *constraints = [NSMutableArray array];
     [views enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop)
     {
         CGFloat multiplier = fractionPerView * (idx + 1.0);
-        [self addConstraint:[NSLayoutConstraint constraintWithItem:view attribute:attributeForView relatedBy:NSLayoutRelationEqual toItem:self attribute:attributeToPin multiplier:multiplier constant:0.0]];
+        [constraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:attributeForView relatedBy:NSLayoutRelationEqual toItem:self attribute:attributeToPin multiplier:multiplier constant:0.0]];
     }];
+    
+    [self addConstraints:constraints];
+    return [constraints copy];
 }
 
 -(UIView*)commonSuperviewWithView:(UIView*)peerView
