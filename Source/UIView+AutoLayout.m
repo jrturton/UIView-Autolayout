@@ -50,9 +50,7 @@
     return constraint;
 }
 
-
--(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfItem:(id)peerItem
-{
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toAttribute:(NSLayoutAttribute)toAttribute ofItem:(id)peerItem withConstant:(CGFloat)constant {
     NSParameterAssert(peerItem);
     UIView *superview;
     if ([peerItem isKindOfClass:[UIView class]])
@@ -65,10 +63,23 @@
         superview = self.superview;
     }
     NSAssert(superview,@"Can't create constraints without a common superview");
-
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:peerItem attribute:attribute multiplier:1.0 constant:0.0];
+    
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:peerItem attribute:toAttribute multiplier:1.0 constant:constant];
     [superview addConstraint:constraint];
     return constraint;
+}
+
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toAttribute:(NSLayoutAttribute)toAttribute ofItem:(id)peerItem {
+    return [self pinAttribute:attribute toAttribute:toAttribute ofItem:peerItem withConstant:0];
+}
+
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfItem:(id)peerItem
+{
+    return [self pinAttribute:attribute toAttribute:attribute ofItem:peerItem withConstant:0];
+}
+
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfItem:(id)peerItem withConstant:(CGFloat)constant {
+    return [self pinAttribute:attribute toAttribute:attribute ofItem:peerItem withConstant:constant];
 }
 
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset
