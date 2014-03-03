@@ -79,7 +79,7 @@
     [self.orangeView constrainToSize:CGSizeMake(25, 25)];
     [self.orangeView pinPointAtX:NSLayoutAttributeLeft Y:NSLayoutAttributeTop toPoint:CGPointMake(15, 15)];
 
-    [self.magentaView pinAttribute:NSLayoutAttributeBottom toSameAttributeOfView:self.orangeView];
+    [self.magentaView pinAttribute:NSLayoutAttributeBottom toSameAttributeOfItem:self.orangeView];
     [self.magentaView pinEdge:NSLayoutAttributeTop toEdge:NSLayoutAttributeTop ofItem:self.orangeView];
     [self.magentaView pinEdge:NSLayoutAttributeLeft toEdge:NSLayoutAttributeRight ofItem:self.orangeView inset:20.0];
     [self.magentaView constrainToWidth:25.0];
@@ -99,8 +99,8 @@
 
     UIView *arm = [UIView autoLayoutView];
     [self.view addSubview:arm];
-    [arm pinEdge:NSLayoutAttributeRight toEdge:NSLayoutAttributeLeft ofItem:self.blueView inset:-10.0];
-    [arm pinAttribute:NSLayoutAttributeTop toSameAttributeOfView:self.blueView];
+    [arm pinAttribute:NSLayoutAttributeRight toAttribute:NSLayoutAttributeLeft ofItem:self.blueView withConstant:-10.0];
+    [arm pinAttribute:NSLayoutAttributeTop toSameAttributeOfItem:self.blueView withConstant:10.0];
     [arm constrainToSize:CGSizeMake(20.0, 200.0)];
     arm.backgroundColor = [UIColor grayColor];
 
