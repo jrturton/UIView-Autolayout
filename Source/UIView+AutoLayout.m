@@ -319,19 +319,19 @@
     for (UIView *view in views)
     {
         vfl = nil;
-        NSDictionary *views = nil;
+        NSDictionary *newViews = nil;
         if (previousView)
         {
             vfl = [NSString stringWithFormat:@"%@[previousView(==view)]-spacing-[view]",direction];
-            views = NSDictionaryOfVariableBindings(previousView,view);
+            newViews = NSDictionaryOfVariableBindings(previousView,view);
         }
         else
         {
             vfl = [NSString stringWithFormat:@"%@|-spacing-[view]",direction];
-            views = NSDictionaryOfVariableBindings(view);
+            newViews = NSDictionaryOfVariableBindings(view);
         }
         
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:views]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:newViews]];
         previousView = view;
     }
     
