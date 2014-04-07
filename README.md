@@ -1,4 +1,4 @@
-Travis status will go here
+[![Build Status](https://travis-ci.org/jrturton/UIView-Autolayout.svg)](https://travis-ci.org/jrturton/UIView-Autolayout)
 
 UIView-Autolayout
 =================
