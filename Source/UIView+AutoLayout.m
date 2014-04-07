@@ -159,6 +159,11 @@
 
 - (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset
 {
+    return [self pinEdge:edge toEdge:toEdge ofItem:peerItem inset:inset relation:NSLayoutRelationEqual];
+}
+
+-(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset relation:(NSLayoutRelation)relation
+{
     UIView *superview;
     if ([peerItem isKindOfClass:[UIView class]])
     {
@@ -169,11 +174,11 @@
     {
         superview = self.superview;
     }
-
+    
     NSAssert (edge >= NSLayoutAttributeLeft && edge <= NSLayoutAttributeBottom,@"Edge parameter is not an edge");
     NSAssert (toEdge >= NSLayoutAttributeLeft && toEdge <= NSLayoutAttributeBottom,@"Edge parameter is not an edge");
-
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:edge relatedBy:NSLayoutRelationEqual toItem:peerItem attribute:toEdge multiplier:1.0 constant:inset];
+    
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:edge relatedBy:relation toItem:peerItem attribute:toEdge multiplier:1.0 constant:inset];
     [superview addConstraint:constraint];
     return constraint;
 }
