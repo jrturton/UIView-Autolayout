@@ -55,6 +55,8 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 -(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem;
 /// Pins a view's edge to a peer item's edge, with an inset. The item may be the layout guide of a view controller
 -(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset;
+/// Pins a view's edge to a peer item's edge, with an inset and a specific relationtype. The item may be the layout guide of a view controller.
+-(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset relation:(NSLayoutRelation)relation;
 
 /// Pins a views edge(s) to another views edge(s). Both views must be in the same view hierarchy.
 -(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(UIView *)peerView;
