@@ -18,8 +18,10 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 /// Return a frameless view that does not automatically use autoresizing (for use in autolayouts)
 +(instancetype)autoLayoutView;
 
+/// Centers the receiver in the specified view
+-(NSArray *)centerInView:(UIView*)view;
+
 /// Centers the receiver in the superview
--(NSArray *)centerInView:(UIView*)superview;
 -(NSLayoutConstraint *)centerInContainerOnAxis:(NSLayoutAttribute)axis;
 
 // Pin an attribute to the same attribute on another view. Both views must be in the same view hierarchy

@@ -86,7 +86,7 @@
 
     UIView *pupil = [UIView autoLayoutView];
     pupil.backgroundColor = [UIColor blackColor];
-    [self.magentaView addSubview:pupil];
+    [self.greenView addSubview:pupil];
     [pupil constrainToSize:CGSizeMake(10.0, 10.0)];
     [pupil centerInView:self.magentaView];
 
