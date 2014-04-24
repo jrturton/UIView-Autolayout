@@ -3,6 +3,11 @@
 //
 //  Created by Liam Nichols on 24/04/2014.
 
+/** Deprecated methods are listed here.
+ 
+ All methods listed in this document have been deperecated. The below documentation will provide instructions on how to migrate to the newer more flexible methods.
+ */
+
 @interface UIView (AutoLayoutDeprecated)
 
 // Pin an attribute to the same attribute on another view. Both views must be in the same view hierarchy
