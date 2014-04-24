@@ -1,6 +1,5 @@
 //
 //  UIView+AutoLayout.m
-//  CollectionTableGrid
 //
 //  Created by Richard Turton on 18/10/2012.
 
