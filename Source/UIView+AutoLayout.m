@@ -53,6 +53,11 @@
 
 -(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfItem:(id)peerItem
 {
+    return [self pinAttribute:attribute toSameAttributeOfItem:peerItem inset:0.0];
+}
+
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfItem:(id)peerItem inset:(CGFloat)inset
+{
     NSParameterAssert(peerItem);
     UIView *superview;
     if ([peerItem isKindOfClass:[UIView class]])
@@ -65,8 +70,8 @@
         superview = self.superview;
     }
     NSAssert(superview,@"Can't create constraints without a common superview");
-
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:peerItem attribute:attribute multiplier:1.0 constant:0.0];
+    
+    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:peerItem attribute:attribute multiplier:1.0 constant:inset];
     [superview addConstraint:constraint];
     return constraint;
 }

@@ -28,6 +28,9 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 /// Pins an attribute to the same attribute of the peer item. The item may be the layout guide of a view controller
 -(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfItem:(id)peerItem;
 
+/// Pins an attribute to the same attribute of the peer item. The item may be the layout guide of a view controller with an inset
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfItem:(id)peerItem inset:(CGFloat)inset;
+
 /// Pins a view to a specific edge(s) of its superview, with a specified inset
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset;
 /// Pins a view to specific edge(s) of its superview, with a specified inset, using the layout guides of the viewController parameter for top and bottom pinning if appropriate
