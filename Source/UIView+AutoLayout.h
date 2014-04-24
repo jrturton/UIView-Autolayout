@@ -5,6 +5,7 @@
 //  Created by Richard Turton on 18/10/2012.
 
 #import <UIKit/UIKit.h>
+#import "UIView+AutoLayout-Deprecated.h"
 
 typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
     JRTViewPinTopEdge = 1 << 0,
@@ -15,6 +16,7 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 };
 
 @interface UIView (AutoLayout)
+
 /// Return a frameless view that does not automatically use autoresizing (for use in autolayouts)
 +(instancetype)autoLayoutView;
 
@@ -23,9 +25,6 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 
 /// Centers the receiver in the superview
 -(NSLayoutConstraint *)centerInContainerOnAxis:(NSLayoutAttribute)axis;
-
-// Pin an attribute to the same attribute on another view. Both views must be in the same view hierarchy
--(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView __deprecated;
 
 /// Pins an attribute to any valid attribute of the peer item. The item may be the layout guide of a view controller. Provide a constant for offset/inset along with a relation.
 -(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toAttribute:(NSLayoutAttribute)toAttribute ofItem:(id)peerItem withConstant:(CGFloat)constant relation:(NSLayoutRelation)relation;
@@ -50,11 +49,6 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 
 /// Pins a view to all edges of its superview, with specified edge insets
 -(NSArray*)pinToSuperviewEdgesWithInset:(UIEdgeInsets)insets;
-
-/// Pins a view's edge to a peer view's edge. Both views must be in the same view hierarchy. Deprecated as of iOS7 to allow for layout guides instead.
--(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView __deprecated;
-/// Pins a view's edge to a peer view's edge, with an inset. Both views must be in the same view hierarchy. Deprecated as of iOS7 to allow for layout guides instead.
--(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView *)peerView inset:(CGFloat)inset __deprecated;
 
 /// Pins a view's edge to a peer item's edge. The item may be the layout guide of a view controller
 -(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem;
@@ -91,4 +85,5 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 
 /// Spaces the views evenly along the selected axis, using their intrinsic size
 -(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis;
+
 @end

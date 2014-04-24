@@ -26,6 +26,7 @@
 		DF2755AC9ACD5C6AFF43DE2F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		DF2756104BAC3B7E87E6A72F /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		DF27568AFD3635C145871BEF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DF2756988B9E5212CB80D3B2 /* UIView+AutoLayout-Deprecated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout-Deprecated.h"; sourceTree = "<group>"; };
 		DF27574CE5E34767CBB6F23B /* AutoLayoutDemo-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AutoLayoutDemo-Prefix.pch"; sourceTree = "<group>"; };
 		DF2759E7784BC3DCD7A431CB /* UIView+AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AutoLayout.h"; sourceTree = "<group>"; };
 		DF275B84E4C60B85C4577C3D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -107,6 +108,7 @@
 			children = (
 				DF275454DFD73175FD57BE1F /* UIView+AutoLayout.m */,
 				DF2759E7784BC3DCD7A431CB /* UIView+AutoLayout.h */,
+				DF2756988B9E5212CB80D3B2 /* UIView+AutoLayout-Deprecated.h */,
 			);
 			path = Source;
 			sourceTree = SOURCE_ROOT;
