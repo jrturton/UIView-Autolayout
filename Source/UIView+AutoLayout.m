@@ -42,17 +42,6 @@
     return constraint;
 }
 
--(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView
-{
-    NSParameterAssert(peerView);
-    UIView *superview = [self commonSuperviewWithView:peerView];
-    NSAssert(superview,@"Can't create constraints without a common superview");
-
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:attribute relatedBy:NSLayoutRelationEqual toItem:peerView attribute:attribute multiplier:1.0 constant:0.0];
-    [superview addConstraint:constraint];
-    return constraint;
-}
-
 -(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toAttribute:(NSLayoutAttribute)toAttribute ofItem:(id)peerItem withConstant:(CGFloat)constant relation:(NSLayoutRelation)relation
 {
     NSParameterAssert(peerItem);
@@ -151,48 +140,6 @@
     
     return [constraints copy];
 }
-
--(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView
-{
-    return [self pinEdge:edge toEdge:toEdge ofItem:peerView inset:0.0];
-}
-
--(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView *)peerView inset:(CGFloat)inset
-{
-    return [self pinEdge:edge toEdge:toEdge ofItem:peerView inset:inset];
-}
-
-- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem
-{
-    return [self pinEdge:edge toEdge:toEdge ofItem:peerItem inset:0.0];
-}
-
-- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset
-{
-    return [self pinEdge:edge toEdge:toEdge ofItem:peerItem inset:inset relation:NSLayoutRelationEqual];
-}
-
--(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset relation:(NSLayoutRelation)relation
-{
-    UIView *superview;
-    if ([peerItem isKindOfClass:[UIView class]])
-    {
-        superview = [self commonSuperviewWithView:peerItem];
-        NSAssert(superview,@"Can't create constraints without a common superview");
-    }
-    else
-    {
-        superview = self.superview;
-    }
-    
-    NSAssert (edge >= NSLayoutAttributeLeft && edge <= NSLayoutAttributeBottom,@"Edge parameter is not an edge");
-    NSAssert (toEdge >= NSLayoutAttributeLeft && toEdge <= NSLayoutAttributeBottom,@"Edge parameter is not an edge");
-    
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:edge relatedBy:relation toItem:peerItem attribute:toEdge multiplier:1.0 constant:inset];
-    [superview addConstraint:constraint];
-    return constraint;
-}
-
 
 -(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(UIView *)peerView
 {
@@ -403,6 +350,40 @@
     } while (startView && !commonSuperview);
     
     return commonSuperview;
+}
+
+#pragma mark - Deprecated
+
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView
+{
+    return [self pinAttribute:attribute toSameAttributeOfItem:peerView];
+}
+
+
+-(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView
+{
+    return [self pinEdge:edge toEdge:toEdge ofItem:peerView inset:0.0];
+}
+
+-(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView *)peerView inset:(CGFloat)inset
+{
+    return [self pinEdge:edge toEdge:toEdge ofItem:peerView inset:inset];
+}
+
+
+- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem
+{
+    return [self pinEdge:edge toEdge:toEdge ofItem:peerItem inset:0.0];
+}
+
+- (NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset
+{
+    return [self pinEdge:edge toEdge:toEdge ofItem:peerItem inset:inset relation:NSLayoutRelationEqual];
+}
+
+-(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset relation:(NSLayoutRelation)relation
+{
+    return [self pinAttribute:edge toAttribute:toEdge ofItem:peerItem withConstant:inset relation:relation];
 }
 
 @end

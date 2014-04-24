@@ -41,21 +41,14 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 /// Pins an attribute to the same attribute of the peer item. The item may be the layout guide of a view controller. Provide a constant for offset/inset
 -(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfItem:(id)peerItem withConstant:(CGFloat)constant;
 
-
 /// Pins a view to a specific edge(s) of its superview, with a specified inset
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset;
+
 /// Pins a view to specific edge(s) of its superview, with a specified inset, using the layout guides of the viewController parameter for top and bottom pinning if appropriate
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset usingLayoutGuidesFrom:(UIViewController*)viewController;
 
 /// Pins a view to all edges of its superview, with specified edge insets
 -(NSArray*)pinToSuperviewEdgesWithInset:(UIEdgeInsets)insets;
-
-/// Pins a view's edge to a peer item's edge. The item may be the layout guide of a view controller
--(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem;
-/// Pins a view's edge to a peer item's edge, with an inset. The item may be the layout guide of a view controller
--(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset;
-/// Pins a view's edge to a peer item's edge, with an inset and a specific relationtype. The item may be the layout guide of a view controller.
--(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofItem:(id)peerItem inset:(CGFloat)inset relation:(NSLayoutRelation)relation;
 
 /// Pins a views edge(s) to another views edge(s). Both views must be in the same view hierarchy.
 -(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(UIView *)peerView;
