@@ -5,35 +5,29 @@
 
 #import <UIKit/UIKit.h>
 
-/** This is the autolayout category.
+/** This AutoLayout category provides convienence methods to make writing AutoLayout code less verbose than directly using the `NSLayoutConstraint` methods.
  
- Blah blah blah.
+ The methods are described in this blog post: http://commandshift.co.uk/blog/2013/02/20/creating-individual-layout-constraints/
  */
 
 /**
  *  Options for pinning item edges.
  */
-typedef NS_OPTIONS(NSUInteger, JRTViewPinEdges) //TODO: verify that this change is OK.
+typedef NS_OPTIONS(NSUInteger, JRTViewPinEdges) //TODO: verify that this change is OK. (unsigned long breaks appledoc)
 {
-    /**
-     *  Pins the top edge of an item.
-     */
+    /// Pins the top edge of an item.
     JRTViewPinTopEdge = 1 << 0,
-    /**
-     *  Pins the right edge of an item.
-     */
+   
+    /// Pins the right edge of an item.
     JRTViewPinRightEdge = 1 << 1,
-    /**
-     *  Pins the bottom edge of an item.
-     */
+
+    /// Pins the bottom edge of an item.
     JRTViewPinBottomEdge = 1 << 2,
-    /**
-     *  Pins the left edge of an item.
-     */
+    
+    /// Pins the left edge of an item.
     JRTViewPinLeftEdge = 1 << 3,
-    /**
-     *  Pins all edges of an item.
-     */
+    
+    /// Pins all edges of an item.
     JRTViewPinAllEdges = ~0UL
 };
 
