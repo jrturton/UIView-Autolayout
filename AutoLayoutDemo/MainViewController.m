@@ -157,7 +157,7 @@
 
     [self.hair pinEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge toSameEdgesOfView:self.head];
     [self.hair constrainToMinimumSize:CGSizeMake(0.0, 4.0)];
-    [self.hair pinEdge:NSLayoutAttributeBottom toEdge:NSLayoutAttributeTop ofItem:self.head inset:-1.0];
+    [self.hair pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeTop ofItem:self.head withConstant:-1.0];
 }
 
 - (void)loadLeftArm
