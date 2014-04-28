@@ -315,7 +315,7 @@ typedef NS_OPTIONS(NSUInteger, JRTViewPinEdges) //TODO: verify that this change 
  
  All methods listed in this document have been deprecated. The below documentation will provide instructions on how to migrate to the newer more flexible methods.
  
- @warning Deprecated methods will be removed in future releases.
+ @warning Deprecated methods will be removed in version 1.0.0.
  */
 
 @interface UIView (AutoLayoutDeprecated)
