@@ -8,7 +8,7 @@
 /**
  *  Options for pinning item edges.
  */
-typedef NS_OPTIONS(NSUInteger, JRTViewPinEdges) //TODO: verify that this change is OK. (unsigned long breaks appledoc)
+typedef NS_OPTIONS(NSUInteger, JRTViewPinEdges)
 {
     /// Pins the top edge of an item.
     JRTViewPinTopEdge = 1 << 0,
