@@ -338,7 +338,6 @@
         [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:views]];
         if (previousView == firstView && flexibleFirstItem)
         {
-            NSLayoutAttribute attribute = axis == UILayoutConstraintAxisHorizontal ? NSLayoutAttributeWidth : NSLayoutAttributeHeight;
             [constraints addObject:[NSLayoutConstraint constraintWithItem:firstView attribute:attribute relatedBy:NSLayoutRelationLessThanOrEqual toItem:view attribute:attribute multiplier:1.0 constant:2.0]];
         }
         previousView = view;
