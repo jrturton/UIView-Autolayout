@@ -305,7 +305,12 @@
     return [constraints copy];
 }
 
--(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options;
+-(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options
+{
+    return [self spaceViews:views onAxis:axis withSpacing:spacing alignmentOptions:options flexibleFirstItem:NO];
+}
+
+-(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options flexibleFirstItem:(BOOL)flexibleFirstItem
 {
     NSAssert([views count] > 1,@"Can only distribute 2 or more views");
     NSString *direction = nil;
@@ -321,25 +326,38 @@
     }
     
     UIView *previousView = nil;
+    UIView *firstView = views[0];
     NSDictionary *metrics = @{@"spacing":@(spacing)};
     NSString *vfl = nil;
     NSMutableArray *constraints = [NSMutableArray array];
     for (UIView *view in views)
     {
         vfl = nil;
-        NSDictionary *newViews = nil;
+        NSDictionary *views = nil;
         if (previousView)
         {
-            vfl = [NSString stringWithFormat:@"%@[previousView(==view)]-spacing-[view]",direction];
-            newViews = NSDictionaryOfVariableBindings(previousView,view);
+            if (previousView == firstView && flexibleFirstItem)
+            {
+                vfl = [NSString stringWithFormat:@"%@[previousView(>=view)]-spacing-[view]",direction];
+            }
+            else
+            {
+                vfl = [NSString stringWithFormat:@"%@[previousView(==view)]-spacing-[view]",direction];
+            }
+            views = NSDictionaryOfVariableBindings(previousView,view);
         }
         else
         {
             vfl = [NSString stringWithFormat:@"%@|-spacing-[view]",direction];
-            newViews = NSDictionaryOfVariableBindings(view);
+            views = NSDictionaryOfVariableBindings(view);
         }
         
-        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:newViews]];
+        [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:views]];
+        if (previousView == firstView && flexibleFirstItem)
+        {
+            NSLayoutAttribute attribute = axis == UILayoutConstraintAxisHorizontal ? NSLayoutAttributeWidth : NSLayoutAttributeHeight;
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:firstView attribute:attribute relatedBy:NSLayoutRelationLessThanOrEqual toItem:view attribute:attribute multiplier:1.0 constant:2.0]];
+        }
         previousView = view;
     }
     
