@@ -86,6 +86,9 @@ typedef NS_OPTIONS(unsigned long, JRTViewPinEdges){
 /// Spaces the views evenly along the selected axis. Will force the views to the same size to make them fit
 -(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options;
 
+/// Spaces the views evenly along the selected axis. Will force the views to the same size to make them fit, with flexibility in the first item to allow for uneven division of view widths
+-(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options flexibleFirstItem:(BOOL)flexibleFirstItem;
+
 /// Spaces the views evenly along the selected axis, using their intrinsic size
 -(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis;
 @end
