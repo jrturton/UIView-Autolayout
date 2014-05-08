@@ -16,7 +16,7 @@ Installation
 
 **Using [Cocoapods](http://cocoapods.org/):**
 
-`pod 'UIView-Autolayout', '~> 0.1.0'`
+`pod 'UIView-Autolayout', '~> 0.2.0'`
 
 **Manually:**
 
@@ -30,6 +30,6 @@ All deprecated methods are marked with a compiler flag providing instructions on
 
 If you are using Cocoapods and do not wish to upgrade to version 1.0.0 then you can specify the following in your Podfile:
 
-`pod 'UIView-Autolayout', '~> 0.1.0'`
+`pod 'UIView-Autolayout', '~> 0.2.0'`
 
 This will prevent Cocoapods installing any 1.0.0 updates.
