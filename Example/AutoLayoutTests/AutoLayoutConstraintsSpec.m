@@ -23,6 +23,8 @@
 
 #define JRTSizeConstraintWithAttributeSizeAndRelation(axis, size, relation) [NSLayoutConstraint constraintWithItem:subview attribute:axis relatedBy:relation toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0f constant:size]
 
+#define JRTEdgeConstraintWithEdgeAndEqualInset(edge, inset) [NSLayoutConstraint constraintWithItem:subview attribute:edge relatedBy:NSLayoutRelationEqual toItem:superview attribute:edge multiplier:1.0 constant:inset]
+
 
 SpecBegin(AutoLayoutConstraints)
 
@@ -205,6 +207,126 @@ describe(@"AutoLayout constraints", ^{
             expect(CGRectGetHeight(subview.bounds)).will.equal(100);
         });
         
+    });
+    
+    fcontext(@"when pinning to a superview's edges", ^{
+        
+        beforeEach(^{
+            superview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+            subview = [UIView autoLayoutView];
+            
+            [superview addSubview:subview];
+        });
+        
+        it(@"pins to just the top edge", ^{
+            [subview pinToSuperviewEdges:JRTViewPinTopEdge inset:0];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeTop, 0));
+            expect(superview.constraints).to.haveCountOf(1);
+            
+            expect(CGRectGetMinY(subview.frame)).to.equal(CGRectGetMinY(superview.frame));
+        });
+        
+        it(@"pins to just the right edge", ^{
+            [subview pinToSuperviewEdges:JRTViewPinRightEdge inset:0];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeRight, 0));
+            expect(superview.constraints).to.haveCountOf(1);
+            
+            expect(CGRectGetMaxX(subview.frame)).to.equal(CGRectGetMaxX(superview.frame));
+        });
+        
+        it(@"pins to just the bottom edge", ^{
+            [subview pinToSuperviewEdges:JRTViewPinBottomEdge inset:0];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeBottom, 0));
+            expect(superview.constraints).to.haveCountOf(1);
+            
+            expect(CGRectGetMaxY(subview.frame)).to.equal(CGRectGetMaxY(superview.frame));
+        });
+        
+        it(@"pins to just the left edge", ^{
+            [subview pinToSuperviewEdges:JRTViewPinLeftEdge inset:0];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeLeft, 0));
+            expect(superview.constraints).to.haveCountOf(1);
+            
+            expect(CGRectGetMinX(subview.frame)).to.equal(CGRectGetMinX(superview.frame));
+        });
+        
+        it(@"pins to a bitmask of edges", ^{
+            [subview pinToSuperviewEdges:JRTViewPinTopEdge|JRTViewPinLeftEdge|JRTViewPinBottomEdge|JRTViewPinRightEdge inset:0];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeTop, 0));
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeLeft, 0));
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeBottom, 0));
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeRight, 0));
+            expect(superview.constraints).to.haveCountOf(4);
+            
+            expect(CGRectGetMinY(subview.frame)).to.equal(CGRectGetMinY(superview.frame));
+            expect(CGRectGetMinX(subview.frame)).to.equal(CGRectGetMinX(superview.frame));
+            expect(CGRectGetMaxY(subview.frame)).to.equal(CGRectGetMaxY(superview.frame));
+            expect(CGRectGetMaxX(subview.frame)).to.equal(CGRectGetMaxX(superview.frame));
+        });
+        
+        it(@"pins to all edges", ^{
+            [subview pinToSuperviewEdges:JRTViewPinAllEdges inset:0];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeTop, 0));
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeLeft, 0));
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeBottom, 0));
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeRight, 0));
+            expect(superview.constraints).to.haveCountOf(4);
+            
+            expect(CGRectGetMinY(subview.frame)).to.equal(0);
+            expect(CGRectGetMinX(subview.frame)).to.equal(CGRectGetMinX(superview.frame));
+            expect(CGRectGetMaxY(subview.frame)).to.equal(CGRectGetMaxY(superview.frame));
+            expect(CGRectGetMaxX(subview.frame)).to.equal(CGRectGetMaxX(superview.frame));
+        });
+        
+        it(@"works with positive insets", ^{
+            CGFloat inset = 10;
+            
+            [subview pinToSuperviewEdges:JRTViewPinTopEdge|JRTViewPinBottomEdge inset:inset];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeTop, inset));
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeBottom, -inset));
+            expect(superview.constraints).to.haveCountOf(2);
+            
+            CGRect expected = (CGRect) {
+                .origin.x = CGRectGetMinY(superview.frame),
+                .origin.y = inset,
+                .size.width = 0,
+                .size.height = CGRectGetHeight(superview.frame) - (inset * 2)
+            };
+            expect(subview).to.haveFrame(expected);
+        });
+        
+        it(@"works with negative insets", ^{
+            CGFloat inset = -10;
+            
+            [subview pinToSuperviewEdges:JRTViewPinTopEdge|JRTViewPinBottomEdge inset:inset];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeTop, inset));
+            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeBottom, -inset));
+            expect(superview.constraints).to.haveCountOf(2);
+            
+            CGRect expected = (CGRect) {
+                .origin.x = CGRectGetMinY(superview.frame),
+                .origin.y = inset,
+                .size.width = 0,
+                .size.height = CGRectGetHeight(superview.frame) - (inset * 2)
+            };
+            expect(subview).to.haveFrame(expected);
+        });
     });
     
 });
