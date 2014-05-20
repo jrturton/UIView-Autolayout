@@ -1,1 +1,3 @@
- language: objective-c
+language: objective-c
+xcode_workspace: Example/AutoLayoutDemo.xcworkspace
+xcode_scheme: AutoLayoutDemo
