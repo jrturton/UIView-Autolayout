@@ -11,8 +11,9 @@
 		171B69F4192B31EF006065F0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF275DD4A80C301D54CF34DE /* Foundation.framework */; };
 		171B69F5192B31EF006065F0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF27568AFD3635C145871BEF /* UIKit.framework */; };
 		171B69FB192B31EF006065F0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 171B69F9192B31EF006065F0 /* InfoPlist.strings */; };
-		171B69FD192B31EF006065F0 /* AutoLayoutTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 171B69FC192B31EF006065F0 /* AutoLayoutTests.m */; };
+		171B69FD192B31EF006065F0 /* AutoLayoutConstraintsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 171B69FC192B31EF006065F0 /* AutoLayoutConstraintsSpec.m */; };
 		5370BBBE19098A2200E3B760 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5370BBBD19098A2200E3B760 /* Images.xcassets */; };
+		B7E80E808FC54AA9AB855F0F /* libPods-AutoLayoutTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4144E930D6D4E9787A7E9B5 /* libPods-AutoLayoutTests.a */; };
 		DF2750331EA5D220BC0BE076 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2756104BAC3B7E87E6A72F /* MainViewController.m */; };
 		DF2752742BCEC480FB36B203 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF275B84E4C60B85C4577C3D /* AppDelegate.m */; };
 		DF2752F18242108B2571F69C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF27568AFD3635C145871BEF /* UIKit.framework */; };
@@ -38,9 +39,11 @@
 		171B69F2192B31EF006065F0 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		171B69F8192B31EF006065F0 /* AutoLayoutTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AutoLayoutTests-Info.plist"; sourceTree = "<group>"; };
 		171B69FA192B31EF006065F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		171B69FC192B31EF006065F0 /* AutoLayoutTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoLayoutTests.m; sourceTree = "<group>"; };
+		171B69FC192B31EF006065F0 /* AutoLayoutConstraintsSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoLayoutConstraintsSpec.m; sourceTree = "<group>"; };
 		171B69FE192B31EF006065F0 /* AutoLayoutTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AutoLayoutTests-Prefix.pch"; sourceTree = "<group>"; };
 		5370BBBD19098A2200E3B760 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		ACD751648B6546CFB5B7E6AA /* Pods-AutoLayoutTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AutoLayoutTests.xcconfig"; path = "Pods/Pods-AutoLayoutTests.xcconfig"; sourceTree = "<group>"; };
+		C4144E930D6D4E9787A7E9B5 /* libPods-AutoLayoutTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AutoLayoutTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF275454DFD73175FD57BE1F /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
 		DF2754EB50EBF6ADC135166E /* AutoLayoutDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoLayoutDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF2754F0F63B684F1B6EA09A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -65,6 +68,7 @@
 				171B69F3192B31EF006065F0 /* XCTest.framework in Frameworks */,
 				171B69F5192B31EF006065F0 /* UIKit.framework in Frameworks */,
 				171B69F4192B31EF006065F0 /* Foundation.framework in Frameworks */,
+				B7E80E808FC54AA9AB855F0F /* libPods-AutoLayoutTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,7 +88,7 @@
 		171B69F6192B31EF006065F0 /* AutoLayoutTests */ = {
 			isa = PBXGroup;
 			children = (
-				171B69FC192B31EF006065F0 /* AutoLayoutTests.m */,
+				171B69FC192B31EF006065F0 /* AutoLayoutConstraintsSpec.m */,
 				171B69F7192B31EF006065F0 /* Supporting Files */,
 			);
 			path = AutoLayoutTests;
@@ -116,6 +120,7 @@
 				DF275DD4A80C301D54CF34DE /* Foundation.framework */,
 				DF2755AC9ACD5C6AFF43DE2F /* CoreGraphics.framework */,
 				171B69F2192B31EF006065F0 /* XCTest.framework */,
+				C4144E930D6D4E9787A7E9B5 /* libPods-AutoLayoutTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -152,6 +157,7 @@
 				DF27517FC3BB498C04E8EA04 /* Frameworks */,
 				DF2752669917D2C69EB116BE /* AutoLayoutDemo */,
 				171B69F6192B31EF006065F0 /* AutoLayoutTests */,
+				ACD751648B6546CFB5B7E6AA /* Pods-AutoLayoutTests.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -172,9 +178,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 171B6A01192B31EF006065F0 /* Build configuration list for PBXNativeTarget "AutoLayoutTests" */;
 			buildPhases = (
+				2D0F21C52919429DA22C604D /* Check Pods Manifest.lock */,
 				171B69ED192B31EF006065F0 /* Sources */,
 				171B69EE192B31EF006065F0 /* Frameworks */,
 				171B69EF192B31EF006065F0 /* Resources */,
+				1731441BE0204ADD8C217115 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -254,12 +262,45 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1731441BE0204ADD8C217115 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-AutoLayoutTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D0F21C52919429DA22C604D /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		171B69ED192B31EF006065F0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				171B69FD192B31EF006065F0 /* AutoLayoutTests.m in Sources */,
+				171B69FD192B31EF006065F0 /* AutoLayoutConstraintsSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -306,6 +347,7 @@
 /* Begin XCBuildConfiguration section */
 		171B6A02192B31EF006065F0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACD751648B6546CFB5B7E6AA /* Pods-AutoLayoutTests.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AutoLayoutDemo.app/AutoLayoutDemo";
 				CLANG_ENABLE_MODULES = YES;
@@ -335,6 +377,7 @@
 		};
 		171B6A03192B31EF006065F0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ACD751648B6546CFB5B7E6AA /* Pods-AutoLayoutTests.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/AutoLayoutDemo.app/AutoLayoutDemo";
 				CLANG_ENABLE_MODULES = YES;
@@ -457,6 +500,7 @@
 				171B6A03192B31EF006065F0 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DF27518D96721A866086BC97 /* Build configuration list for PBXProject "AutoLayoutDemo" */ = {
 			isa = XCConfigurationList;
