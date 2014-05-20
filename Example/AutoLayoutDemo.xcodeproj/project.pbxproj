@@ -105,10 +105,11 @@
 		DF275EEE8561F3A7961EF38D /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				DF275454DFD73175FD57BE1F /* UIView+AutoLayout.m */,
 				DF2759E7784BC3DCD7A431CB /* UIView+AutoLayout.h */,
+				DF275454DFD73175FD57BE1F /* UIView+AutoLayout.m */,
 			);
-			path = Source;
+			name = Source;
+			path = ../Source;
 			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
