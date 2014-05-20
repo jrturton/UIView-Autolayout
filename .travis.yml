@@ -2,6 +2,10 @@ language: objective-c
 xcode_workspace: Example/AutoLayoutDemo.xcworkspace
 xcode_scheme: AutoLayoutDemo
 
+before_install:
+  - export LANG=en_US.UTF-8
+  - gem update cocoapods
+
 install:
   - cd Example
   - pod install
