@@ -12,6 +12,8 @@
 		171B69F5192B31EF006065F0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF27568AFD3635C145871BEF /* UIKit.framework */; };
 		171B69FB192B31EF006065F0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 171B69F9192B31EF006065F0 /* InfoPlist.strings */; };
 		171B69FD192B31EF006065F0 /* AutoLayoutConstraintsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 171B69FC192B31EF006065F0 /* AutoLayoutConstraintsSpec.m */; };
+		171B6A09192B3459006065F0 /* EXPMatchers+haveConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 171B6A06192B3459006065F0 /* EXPMatchers+haveConstraint.m */; };
+		171B6A0A192B3459006065F0 /* EXPMatchers+haveFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 171B6A08192B3459006065F0 /* EXPMatchers+haveFrame.m */; };
 		5370BBBE19098A2200E3B760 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5370BBBD19098A2200E3B760 /* Images.xcassets */; };
 		B7E80E808FC54AA9AB855F0F /* libPods-AutoLayoutTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C4144E930D6D4E9787A7E9B5 /* libPods-AutoLayoutTests.a */; };
 		DF2750331EA5D220BC0BE076 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2756104BAC3B7E87E6A72F /* MainViewController.m */; };
@@ -41,6 +43,10 @@
 		171B69FA192B31EF006065F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		171B69FC192B31EF006065F0 /* AutoLayoutConstraintsSpec.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AutoLayoutConstraintsSpec.m; sourceTree = "<group>"; };
 		171B69FE192B31EF006065F0 /* AutoLayoutTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AutoLayoutTests-Prefix.pch"; sourceTree = "<group>"; };
+		171B6A05192B3459006065F0 /* EXPMatchers+haveConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EXPMatchers+haveConstraint.h"; sourceTree = "<group>"; };
+		171B6A06192B3459006065F0 /* EXPMatchers+haveConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EXPMatchers+haveConstraint.m"; sourceTree = "<group>"; };
+		171B6A07192B3459006065F0 /* EXPMatchers+haveFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EXPMatchers+haveFrame.h"; sourceTree = "<group>"; };
+		171B6A08192B3459006065F0 /* EXPMatchers+haveFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EXPMatchers+haveFrame.m"; sourceTree = "<group>"; };
 		5370BBBD19098A2200E3B760 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACD751648B6546CFB5B7E6AA /* Pods-AutoLayoutTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AutoLayoutTests.xcconfig"; path = "Pods/Pods-AutoLayoutTests.xcconfig"; sourceTree = "<group>"; };
 		C4144E930D6D4E9787A7E9B5 /* libPods-AutoLayoutTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AutoLayoutTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +94,7 @@
 		171B69F6192B31EF006065F0 /* AutoLayoutTests */ = {
 			isa = PBXGroup;
 			children = (
+				171B6A04192B343D006065F0 /* Matchers */,
 				171B69FC192B31EF006065F0 /* AutoLayoutConstraintsSpec.m */,
 				171B69F7192B31EF006065F0 /* Supporting Files */,
 			);
@@ -102,6 +109,17 @@
 				171B69FE192B31EF006065F0 /* AutoLayoutTests-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		171B6A04192B343D006065F0 /* Matchers */ = {
+			isa = PBXGroup;
+			children = (
+				171B6A05192B3459006065F0 /* EXPMatchers+haveConstraint.h */,
+				171B6A06192B3459006065F0 /* EXPMatchers+haveConstraint.m */,
+				171B6A07192B3459006065F0 /* EXPMatchers+haveFrame.h */,
+				171B6A08192B3459006065F0 /* EXPMatchers+haveFrame.m */,
+			);
+			path = Matchers;
 			sourceTree = "<group>";
 		};
 		DF2750DF2600D4DE873F336D /* Products */ = {
@@ -301,6 +319,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				171B69FD192B31EF006065F0 /* AutoLayoutConstraintsSpec.m in Sources */,
+				171B6A0A192B3459006065F0 /* EXPMatchers+haveFrame.m in Sources */,
+				171B6A09192B3459006065F0 /* EXPMatchers+haveConstraint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
