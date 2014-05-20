@@ -1,3 +1,7 @@
 language: objective-c
 xcode_workspace: Example/AutoLayoutDemo.xcworkspace
 xcode_scheme: AutoLayoutDemo
+
+install:
+  - cd Example
+  - pod install
