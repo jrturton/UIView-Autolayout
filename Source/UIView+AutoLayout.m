@@ -99,25 +99,26 @@
 {
     NSMutableArray *constraints = [NSMutableArray new];
 
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterX multiplier:1.0 constant:0]];
-    [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:view attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0]];
-
-    UIView *superview = [self commonSuperviewWithView:view];
-
-    [superview addConstraints:constraints];
+    [constraints addObject:[self centerInView:view onAxis:NSLayoutAttributeCenterX]];
+    [constraints addObject:[self centerInView:view onAxis:NSLayoutAttributeCenterY]];
 
     return [constraints copy];
 }
 
+-(NSArray *)centerInContainer
+{
+    return [self centerInView:self.superview];
+}
+
 -(NSLayoutConstraint *)centerInContainerOnAxis:(NSLayoutAttribute)axis
 {
-    NSParameterAssert(axis == NSLayoutAttributeCenterX || axis == NSLayoutAttributeCenterY);
+    return [self centerInView:self.superview onAxis:axis];
+}
 
-    UIView *superview = self.superview;
-    NSParameterAssert(superview);
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self attribute:axis relatedBy:NSLayoutRelationEqual toItem:superview attribute:axis multiplier:1.0 constant:0.0];
-    [superview addConstraint:constraint];
-    return constraint;
+-(NSLayoutConstraint *)centerInView:(UIView *)view onAxis:(NSLayoutAttribute)axis
+{
+    NSParameterAssert(axis == NSLayoutAttributeCenterX || axis == NSLayoutAttributeCenterY);
+    return [self pinAttribute:axis toSameAttributeOfItem:view];
 }
 
 #pragma mark - Constraining to a fixed size

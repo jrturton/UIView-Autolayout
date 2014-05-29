@@ -71,6 +71,37 @@ describe(@"AutoLayout constraints", ^{
             expect(CGRectGetMinY(subview.frame)).to.equal(100);
         });
         
+        it(@"centers a view on both axis", ^{
+            
+            [subview centerInContainer];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTCenterConstraintWithAxis(NSLayoutAttributeCenterX));
+            expect(superview).to.haveConstraint(JRTCenterConstraintWithAxis(NSLayoutAttributeCenterY));
+            
+            expect(CGRectGetMinY(subview.frame)).to.equal(100);
+        });
+        
+        it(@"centers a view within another view horizontally", ^{
+            
+            [subview centerInView:superview];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTCenterConstraintWithAxis(NSLayoutAttributeCenterX));
+            
+            expect(subview.center).to.equal(CGPointMake(150, 150));
+        });
+        
+        it(@"centers a view within another view vertically", ^{
+            
+            [subview centerInView:superview];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTCenterConstraintWithAxis(NSLayoutAttributeCenterY));
+            
+            expect(subview.center).to.equal(CGPointMake(150, 150));
+        });
+        
         it(@"centers a view within another view", ^{
             
             [subview centerInView:superview];
