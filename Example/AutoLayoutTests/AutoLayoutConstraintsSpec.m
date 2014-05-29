@@ -209,7 +209,7 @@ describe(@"AutoLayout constraints", ^{
         
     });
     
-    fcontext(@"when pinning to a superview's edges", ^{
+    context(@"when pinning to a superview's edges", ^{
         
         beforeEach(^{
             superview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
@@ -327,8 +327,289 @@ describe(@"AutoLayout constraints", ^{
             };
             expect(subview).to.haveFrame(expected);
         });
+        
+        it(@"uses a UIEdgeInsets value", ^{
+            UIEdgeInsets insets = (UIEdgeInsets){.top = 10.0,.right = 20.0,.bottom = 30.0,.left = 40.0};
+            [subview pinToSuperviewEdgesWithInset:insets];
+            [superview layoutIfNeeded];
+            expect(superview.constraints).to.haveCountOf(4);
+            
+            CGRect expected = UIEdgeInsetsInsetRect(superview.bounds, insets);
+            expect(subview).to.haveFrame(expected);
+        });
     });
     
+    context(@"When pinning to layout guides", ^{
+        it(@"uses the layout guides from the view controller",^{
+            UIViewController *vc = [UIViewController new];
+            UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:vc];
+            
+            UIView *view = [UIView autoLayoutView];
+            [vc.view addSubview:view];
+            [view pinToSuperviewEdges:JRTViewPinTopEdge | JRTViewPinBottomEdge inset:0.0 usingLayoutGuidesFrom:vc];
+            [navController.view layoutIfNeeded];
+            XCTAssertNotNil(vc.topLayoutGuide);
+            XCTAssertNotNil(vc.bottomLayoutGuide);
+            expect(vc.view).to.haveConstraint([NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:vc.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]);
+            expect(vc.view).to.haveConstraint([NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:vc.bottomLayoutGuide attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]);
+        });
+    });
+
+    context(@"when pinning attributes",^{
+
+        __block UIView *view1 = nil;
+        __block UIView *view2 = nil;
+
+        beforeEach(^{
+            superview = [UIView autoLayoutView];
+            view1 = [UIView autoLayoutView];
+            view2 = [UIView autoLayoutView];
+            [superview addSubview:view1];
+            [superview addSubview:view2];
+        });
+
+        it(@"pins one attribute to another",^{
+            [view1 pinAttribute:NSLayoutAttributeTop toAttribute:NSLayoutAttributeTop ofItem:view2];
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view2 attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]);
+        });
+
+        it(@"pins one attribute to another using a constant",^{
+            [view1 pinAttribute:NSLayoutAttributeTop toAttribute:NSLayoutAttributeTop ofItem:view2 withConstant:10.0];
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view2 attribute:NSLayoutAttributeTop multiplier:1.0 constant:10.0]);
+        });
+
+        it(@"pins one attribute to another using a constant and relation",^{
+            [view1 pinAttribute:NSLayoutAttributeTop toAttribute:NSLayoutAttributeTop ofItem:view2 withConstant:10.0 relation:NSLayoutRelationGreaterThanOrEqual];
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationGreaterThanOrEqual toItem:view2 attribute:NSLayoutAttributeTop multiplier:1.0 constant:10.0]);
+        });
+
+        it(@"pins the same attributes",^{
+            [view1 pinAttribute:NSLayoutAttributeTop toSameAttributeOfItem:view2];
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view2 attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]);
+        });
+
+        it(@"pins the same attributes with a constant",^{
+            [view1 pinAttribute:NSLayoutAttributeTop toSameAttributeOfItem:view2 withConstant:10.0];
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view1 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view2 attribute:NSLayoutAttributeTop multiplier:1.0 constant:10.0]);
+        });
+    });
+
+
+    context(@"when pinning edges of peer views",^{
+
+        __block UIView *view1 = nil;
+        __block UIView *view2 = nil;
+
+        beforeEach(^{
+            superview = [UIView autoLayoutView];
+            view1 = [UIView autoLayoutView];
+            view2 = [UIView autoLayoutView];
+            [superview addSubview:view1];
+            [superview addSubview:view2];
+            [superview constrainToSize:CGSizeMake(300.0,300.0)];
+            [view1 constrainToSize:CGSizeMake(100.0, 100.0)];
+            [view1 centerInView:superview];
+        });
+
+        it (@"pins the top edge",^{
+            [view2 pinEdges:JRTViewPinTopEdge toSameEdgesOfView:view1];
+            [superview layoutIfNeeded];
+
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]);
+            XCTAssertEqual(100.0, CGRectGetMinY(view2.frame));
+        });
+
+        it (@"pins the left edge",^{
+            [view2 pinEdges:JRTViewPinLeftEdge toSameEdgesOfView:view1];
+            [superview layoutIfNeeded];
+
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]);
+            XCTAssertEqual(100.0, CGRectGetMinX(view2.frame));
+        });
+
+        it (@"pins the bottom edge",^{
+            [view2 pinEdges:JRTViewPinBottomEdge toSameEdgesOfView:view1];
+            [superview layoutIfNeeded];
+
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]);
+            XCTAssertEqual(200.0, CGRectGetMaxY(view2.frame));
+        });
+
+        it (@"pins the right edge",^{
+            [view2 pinEdges:JRTViewPinRightEdge toSameEdgesOfView:view1];
+            [superview layoutIfNeeded];
+
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]);
+            XCTAssertEqual(200.0, CGRectGetMaxX(view2.frame));
+        });
+
+        it (@"pins a pair of edges",^{
+            [view2 pinEdges:JRTViewPinTopEdge | JRTViewPinLeftEdge toSameEdgesOfView:view1];
+            [superview layoutIfNeeded];
+
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]);
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]);
+            XCTAssertEqual(100.0, CGRectGetMinY(view2.frame));
+            XCTAssertEqual(100.0, CGRectGetMinX(view2.frame));
+        });
+
+        it (@"pins all edges",^{
+            [view2 pinEdges:JRTViewPinAllEdges toSameEdgesOfView:view1];
+            [superview layoutIfNeeded];
+
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeTop multiplier:1.0 constant:0.0]);
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeLeft multiplier:1.0 constant:0.0]);
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0.0]);
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeRight multiplier:1.0 constant:0.0]);
+            expect(view2).to.haveFrame(view1.frame);
+        });
+
+        it (@"pins the top edge with a positive inset",^{
+            [view2 pinEdges:JRTViewPinTopEdge toSameEdgesOfView:view1 inset:10.0];
+            [superview layoutIfNeeded];
+
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeTop multiplier:1.0 constant:10.0]);
+            XCTAssertEqual(110.0, CGRectGetMinY(view2.frame));
+        });
+
+        it (@"pins the top edge with a negative inset",^{
+            [view2 pinEdges:JRTViewPinTopEdge toSameEdgesOfView:view1 inset:-10.0f];
+            [superview layoutIfNeeded];
+
+            expect(superview).to.haveConstraint([NSLayoutConstraint constraintWithItem:view2 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:view1 attribute:NSLayoutAttributeTop multiplier:1.0 constant:-10.0f]);
+            XCTAssertEqual(90.0, CGRectGetMinY(view2.frame));
+        });
+    });
+
+    context(@"when pinning specific points", ^{
+
+        beforeEach(^{
+            superview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 300)];
+            subview = [UIView autoLayoutView];
+
+            [superview addSubview:subview];
+
+            [subview constrainToSize:CGSizeMake(100, 100)];
+        });
+
+        it(@"pins the left", ^{
+            [subview pinPointAtX:NSLayoutAttributeLeft Y:NSLayoutAttributeNotAnAttribute toPoint:CGPointMake(10.0,0.0)];
+
+            [superview layoutIfNeeded];
+            XCTAssertEqual(10.0, CGRectGetMinX(subview.frame));
+        });
+
+        it(@"pins the center x", ^{
+            [subview pinPointAtX:NSLayoutAttributeCenterX Y:NSLayoutAttributeNotAnAttribute toPoint:CGPointMake(10.0,0.0)];
+
+            [superview layoutIfNeeded];
+            XCTAssertEqual(10.0, CGRectGetMidX(subview.frame));
+        });
+
+        it(@"pins the right", ^{
+            [subview pinPointAtX:NSLayoutAttributeRight Y:NSLayoutAttributeNotAnAttribute toPoint:CGPointMake(10.0,0.0)];
+
+            [superview layoutIfNeeded];
+            XCTAssertEqual(10.0, CGRectGetMaxX(subview.frame));
+        });
+
+        it(@"pins the top", ^{
+            [subview pinPointAtX:NSLayoutAttributeNotAnAttribute Y:NSLayoutAttributeTop toPoint:CGPointMake(0.0,10.0)];
+
+            [superview layoutIfNeeded];
+            XCTAssertEqual(10.0, CGRectGetMinY(subview.frame));
+        });
+
+        it(@"pins the center y", ^{
+            [subview pinPointAtX:NSLayoutAttributeNotAnAttribute Y:NSLayoutAttributeCenterY toPoint:CGPointMake(0.0,10.0)];
+
+            [superview layoutIfNeeded];
+            XCTAssertEqual(10.0, CGRectGetMidY(subview.frame));
+        });
+
+        it(@"pins the bottom", ^{
+            [subview pinPointAtX:NSLayoutAttributeNotAnAttribute Y:NSLayoutAttributeBottom toPoint:CGPointMake(0.0,10.0)];
+
+            [superview layoutIfNeeded];
+            XCTAssertEqual(10.0, CGRectGetMaxY(subview.frame));
+        });
+
+        it(@"pins the baseline",^{
+            UILabel *label = [UILabel autoLayoutView];
+            label.text = @"TEXT";
+            [superview addSubview:label];
+            [label centerInContainerOnAxis:NSLayoutAttributeCenterX];
+
+            [label pinPointAtX:NSLayoutAttributeNotAnAttribute Y:NSLayoutAttributeBaseline toPoint:CGPointMake(0.0,50.0)];
+            [superview layoutIfNeeded];
+
+            XCTAssertEqualWithAccuracy(50.0, CGRectGetMaxY(label.frame) + label.font.descender, 1.0);
+        });
+
+    });
+
+    context(@"when spacing views", ^{
+
+        __block UIView *view1 = nil;
+        __block UIView *view2 = nil;
+        __block UIView *view3 = nil;
+        __block UIView *view4 = nil;
+        __block NSArray *views = nil;
+
+        beforeEach(^{
+            superview = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 410, 300)];
+            view1 = [UIView autoLayoutView];
+            view2 = [UIView autoLayoutView];
+            view3 = [UIView autoLayoutView];
+            view4 = [UIView autoLayoutView];
+            views = @[view1,view2,view3,view4];
+
+            [superview addSubview:view1];
+            [superview addSubview:view2];
+            [superview addSubview:view3];
+            [superview addSubview:view4];
+        });
+
+        it(@"spaces the views with a set spacing", ^{
+            [view1 pinToSuperviewEdges:JRTViewPinTopEdge inset:0.0];
+            [superview spaceViews:views onAxis:UILayoutConstraintAxisHorizontal withSpacing:10.0 alignmentOptions:NSLayoutFormatAlignAllTop];
+            [superview layoutIfNeeded];
+
+            [views enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+                XCTAssertEqual(view.frame.size.width,90.0);
+                XCTAssertEqual(CGRectGetMinX(view.frame),10.0 + idx * 100);
+            }];
+
+        });
+
+        it(@"spaces the views at regular points", ^{
+            superview.frame = CGRectMake(0, 0, 400, 300);
+            [view1 pinToSuperviewEdges:JRTViewPinTopEdge inset:0.0];
+            [superview spaceViews:views onAxis:UILayoutConstraintAxisHorizontal];
+            [superview layoutIfNeeded];
+
+            CGFloat unitSize = CGRectGetWidth(superview.frame) / ([views count] + 1.0f);
+
+            [views enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+                XCTAssertEqual(CGRectGetMidX(view.frame),unitSize * (idx + 1));
+            }];
+
+        });
+
+        it(@"allows the first item to have flexible width",^{
+            superview.frame = CGRectMake(0,0,320,300);
+            views = @[view1,view2,view3];
+            [view1 pinToSuperviewEdges:JRTViewPinTopEdge inset:0.0];
+            [superview spaceViews:views onAxis:UILayoutConstraintAxisHorizontal withSpacing:0.0 alignmentOptions:NSLayoutFormatAlignAllTop flexibleFirstItem:YES];
+
+            XCTAssertEqual(CGRectGetWidth(view2.frame), CGRectGetWidth(view3.frame));
+            XCTAssertEqualWithAccuracy(CGRectGetWidth(view1.frame), CGRectGetWidth(view2.frame), 1.0f);
+
+
+        });
+
+    });
+
 });
 
 SpecEnd
