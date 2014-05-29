@@ -1,7 +1,7 @@
 language: objective-c
 xcode_workspace: AutoLayoutDemo.xcworkspace
 xcode_scheme: AutoLayoutDemo
-
+xcode_sdk: iphonesimulator
 before_install:
   - export LANG=en_US.UTF-8
   - gem update cocoapods

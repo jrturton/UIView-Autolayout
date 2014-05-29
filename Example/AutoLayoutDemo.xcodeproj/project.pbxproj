@@ -521,7 +521,7 @@
 				171B6A03192B31EF006065F0 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		DF27518D96721A866086BC97 /* Build configuration list for PBXProject "AutoLayoutDemo" */ = {
 			isa = XCConfigurationList;
@@ -530,7 +530,7 @@
 				DF275AD6FDFFC1B3BDB5518D /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		DF275B72D3B93C103FFCFA75 /* Build configuration list for PBXNativeTarget "AutoLayoutDemo" */ = {
 			isa = XCConfigurationList;
@@ -539,7 +539,7 @@
 				DF2757BA99075433083F59C9 /* Debug */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
