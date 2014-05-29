@@ -292,6 +292,11 @@
 
 -(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options flexibleFirstItem:(BOOL)flexibleFirstItem
 {
+    return [self spaceViews:views onAxis:axis withSpacing:spacing alignmentOptions:options flexibleFirstItem:flexibleFirstItem applySpacingToEdges:YES];
+}
+
+-(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options flexibleFirstItem:(BOOL)flexibleFirstItem applySpacingToEdges:(BOOL)spaceEdges
+{
     NSAssert([views count] > 1,@"Can only distribute 2 or more views");
     NSString *direction = nil;
     NSLayoutAttribute attribute;
@@ -331,7 +336,7 @@
         }
         else
         {
-            vfl = [NSString stringWithFormat:@"%@|-spacing-[view]",direction];
+            vfl = [NSString stringWithFormat:@"%@|%@[view]",direction, spaceEdges ? @"-spacing-" : @""];
             views = NSDictionaryOfVariableBindings(view);
         }
         
@@ -343,7 +348,7 @@
         previousView = view;
     }
     
-    vfl = [NSString stringWithFormat:@"%@[previousView]-spacing-|",direction];
+    vfl = [NSString stringWithFormat:@"%@[previousView]%@|",direction, spaceEdges ? @"-spacing-" : @""];
     [constraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:vfl options:options metrics:metrics views:NSDictionaryOfVariableBindings(previousView)]];
     
     [self addConstraints:constraints];

@@ -607,6 +607,18 @@ describe(@"AutoLayout constraints", ^{
 
 
         });
+        
+        it(@"doesnt space the edges", ^{
+            [view1 pinToSuperviewEdges:JRTViewPinTopEdge inset:0.0];
+            [superview spaceViews:views onAxis:UILayoutConstraintAxisHorizontal withSpacing:10.0 alignmentOptions:NSLayoutFormatAlignAllTop flexibleFirstItem:NO applySpacingToEdges:NO];
+            [superview layoutIfNeeded];
+            
+            [views enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+                XCTAssertEqual(view.frame.size.width, 95.0);
+                XCTAssertEqual(CGRectGetMinX(view.frame),(idx * 95) + (10.0 * idx));
+            }];
+            
+        });
 
     });
 
