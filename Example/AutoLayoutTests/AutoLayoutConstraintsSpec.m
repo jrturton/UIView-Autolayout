@@ -71,6 +71,39 @@ describe(@"AutoLayout constraints", ^{
             expect(CGRectGetMinY(subview.frame)).to.equal(100);
         });
         
+        it(@"centers a view on both axes", ^{
+            
+            [subview centerInContainer];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTCenterConstraintWithAxis(NSLayoutAttributeCenterX));
+            expect(superview).to.haveConstraint(JRTCenterConstraintWithAxis(NSLayoutAttributeCenterY));
+            
+            expect(CGRectGetMinY(subview.frame)).to.equal(100);
+        });
+        
+        it(@"centers a view within another view horizontally", ^{
+            
+            [subview centerInView:superview onAxis:NSLayoutAttributeCenterX];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTCenterConstraintWithAxis(NSLayoutAttributeCenterX));
+            expect(superview).toNot.haveConstraint(JRTCenterConstraintWithAxis(NSLayoutAttributeCenterY));
+
+            expect(subview.center.x).to.equal(150);
+        });
+        
+        it(@"centers a view within another view vertically", ^{
+            
+            [subview centerInView:superview onAxis:NSLayoutAttributeCenterY];
+            [superview layoutIfNeeded];
+            
+            expect(superview).to.haveConstraint(JRTCenterConstraintWithAxis(NSLayoutAttributeCenterY));
+            expect(superview).toNot.haveConstraint(JRTCenterConstraintWithAxis(NSLayoutAttributeCenterX));
+
+            expect(subview.center.y).to.equal(150);
+        });
+        
         it(@"centers a view within another view", ^{
             
             [subview centerInView:superview];
@@ -606,6 +639,18 @@ describe(@"AutoLayout constraints", ^{
             XCTAssertEqualWithAccuracy(CGRectGetWidth(view1.frame), CGRectGetWidth(view2.frame), 1.0f);
 
 
+        });
+        
+        it(@"doesnt space the edges", ^{
+            [view1 pinToSuperviewEdges:JRTViewPinTopEdge inset:0.0];
+            [superview spaceViews:views onAxis:UILayoutConstraintAxisHorizontal withSpacing:10.0 alignmentOptions:NSLayoutFormatAlignAllTop flexibleFirstItem:NO applySpacingToEdges:NO];
+            [superview layoutIfNeeded];
+            
+            [views enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+                XCTAssertEqual(view.frame.size.width, 95.0);
+                XCTAssertEqual(CGRectGetMinX(view.frame),(idx * 95) + (10.0 * idx));
+            }];
+            
         });
 
     });
