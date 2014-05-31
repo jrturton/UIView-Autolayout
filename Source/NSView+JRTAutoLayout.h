@@ -7,7 +7,7 @@
 //  You can use "JRTView+JRTAutoLayout.h" if you want.
 //
 
-#if TARGET_MAC && !TARGET_OS_IPHONE
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
 #import "JRTView+JRTAutoLayout.h"
 #endif
 
