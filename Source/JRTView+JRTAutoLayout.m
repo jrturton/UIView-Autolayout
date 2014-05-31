@@ -1,13 +1,16 @@
 //
-//  UIView+AutoLayout.m
+//  JRTView+JRTAutoLayout.m
 //
 //  Created by Richard Turton on 18/10/2012.
+//
+//  Added OS X support by Vanderlei Martinelli on 31/05/2014.
+//
 
-#import "UIView+AutoLayout.h"
+#import "JRTView+JRTAutoLayout.h"
 
 #import <Availability.h>
 
-@interface UIView (AutoLayoutPrivate)
+@interface JRTView (JRTAutoLayoutPrivate)
 
 /**
  *  Searches the view hierarchy to find the common superview between the receiver and the `peerView`.
@@ -16,7 +19,7 @@
  *
  *  @return The common superview between the receiver and the `peerView` or nil if the views are not contained in the same view hierarchy.
  */
-- (UIView*)commonSuperviewWithView:(UIView*)peerView;
+- (JRTView*)commonSuperviewWithView:(JRTView*)peerView;
 
 /**
  *  Applys an attribute to the receiver with a specific constant and relation.
@@ -31,38 +34,46 @@
 
 @end
 
-@implementation UIView (AutoLayout)
+@implementation JRTView (JRTAutoLayout)
 
 #pragma mark - Initializing a View Object
 
 +(instancetype)autoLayoutView
 {
-    UIView *viewToReturn = [self new];
+    JRTView *viewToReturn = [self new];
     viewToReturn.translatesAutoresizingMaskIntoConstraints = NO;
     return viewToReturn;
 }
 
 #pragma mark - Pinning to the Superview
 
+#if TARGET_OS_IPHONE
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset
 {
     return [self pinToSuperviewEdges:edges inset:inset usingLayoutGuidesFrom:nil];
 }
+#endif
 
-- (NSArray *)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset usingLayoutGuidesFrom:(UIViewController *)viewController
+#if TARGET_OS_IPHONE
+-(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset usingLayoutGuidesFrom:(UIViewController *)viewController
+#else
+-(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset
+#endif
 {
-    UIView *superview = self.superview;
+    JRTView *superview = self.superview;
     NSAssert(superview,@"Can't pin to a superview if no superview exists");
 
     id topItem = nil;
     id bottomItem = nil;
 
+#if TARGET_OS_IPHONE
 #ifdef __IPHONE_7_0
     if (viewController && [viewController respondsToSelector:@selector(topLayoutGuide)])
     {
         topItem = viewController.topLayoutGuide;
         bottomItem = viewController.bottomLayoutGuide;
     }
+#endif
 #endif
 
     NSMutableArray *constraints = [NSMutableArray new];
@@ -90,8 +101,7 @@
     return [constraints copy];
 }
 
-
--(NSArray*)pinToSuperviewEdgesWithInset:(UIEdgeInsets)insets
+-(NSArray*)pinToSuperviewEdgesWithInset:(JRTEdgeInsets)insets
 {
     NSMutableArray *constraints = [NSMutableArray new];
 
@@ -105,7 +115,7 @@
 
 #pragma mark - Centering Views
 
--(NSArray *)centerInView:(UIView*)view
+-(NSArray *)centerInView:(JRTView*)view
 {
     NSMutableArray *constraints = [NSMutableArray new];
 
@@ -125,7 +135,7 @@
     return [self centerInView:self.superview onAxis:axis];
 }
 
--(NSLayoutConstraint *)centerInView:(UIView *)view onAxis:(NSLayoutAttribute)axis
+-(NSLayoutConstraint *)centerInView:(JRTView *)view onAxis:(NSLayoutAttribute)axis
 {
     NSParameterAssert(axis == NSLayoutAttributeCenterX || axis == NSLayoutAttributeCenterY);
     return [self pinAttribute:axis toSameAttributeOfItem:view];
@@ -200,8 +210,8 @@
 {
     NSParameterAssert(peerItem);
     
-    UIView *superview;
-    if ([peerItem isKindOfClass:[UIView class]])
+    JRTView *superview;
+    if ([peerItem isKindOfClass:[JRTView class]])
     {
         superview = [self commonSuperviewWithView:peerItem];
         NSAssert(superview,@"Can't create constraints without a common superview");
@@ -227,14 +237,14 @@
     return [self pinAttribute:attribute toAttribute:attribute ofItem:peerItem withConstant:constant];
 }
 
--(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(UIView *)peerView
+-(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(JRTView *)peerView
 {
     return [self pinEdges:edges toSameEdgesOfView:peerView inset:0];
 }
 
--(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(UIView *)peerView inset:(CGFloat)inset
+-(NSArray *)pinEdges:(JRTViewPinEdges)edges toSameEdgesOfView:(JRTView *)peerView inset:(CGFloat)inset
 {
-    UIView *superview = [self commonSuperviewWithView:peerView];
+    JRTView *superview = [self commonSuperviewWithView:peerView];
     NSAssert(superview,@"Can't create constraints without a common superview");
     
     NSMutableArray *constraints = [NSMutableArray arrayWithCapacity:4];
@@ -263,7 +273,7 @@
 
 -(NSArray*)pinPointAtX:(NSLayoutAttribute)x Y:(NSLayoutAttribute)y toPoint:(CGPoint)point
 {
-    UIView *superview = self.superview;
+    JRTView *superview = self.superview;
     NSAssert(superview,@"Can't create constraints without a superview");
     
     // Valid X positions are Left, Center, Right and Not An Attribute
@@ -292,27 +302,27 @@
 
 #pragma mark - Spacing Views
 
--(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options
+-(NSArray*)spaceViews:(NSArray*)views onAxis:(JRTLayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options
 {
     return [self spaceViews:views onAxis:axis withSpacing:spacing alignmentOptions:options flexibleFirstItem:NO];
 }
 
--(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options flexibleFirstItem:(BOOL)flexibleFirstItem
+-(NSArray*)spaceViews:(NSArray*)views onAxis:(JRTLayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options flexibleFirstItem:(BOOL)flexibleFirstItem
 {
     return [self spaceViews:views onAxis:axis withSpacing:spacing alignmentOptions:options flexibleFirstItem:flexibleFirstItem applySpacingToEdges:YES];
 }
 
--(NSArray*)spaceViews:(NSArray*)views onAxis:(UILayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options flexibleFirstItem:(BOOL)flexibleFirstItem applySpacingToEdges:(BOOL)spaceEdges
+-(NSArray*)spaceViews:(NSArray*)views onAxis:(JRTLayoutConstraintAxis)axis withSpacing:(CGFloat)spacing alignmentOptions:(NSLayoutFormatOptions)options flexibleFirstItem:(BOOL)flexibleFirstItem applySpacingToEdges:(BOOL)spaceEdges
 {
     NSAssert([views count] > 1,@"Can only distribute 2 or more views");
     NSString *direction = nil;
     NSLayoutAttribute attribute;
     switch (axis) {
-        case UILayoutConstraintAxisHorizontal:
+        case JRTLayoutConstraintAxisHorizontal:
             direction = @"H:";
             attribute = NSLayoutAttributeWidth;
             break;
-        case UILayoutConstraintAxisVertical:
+        case JRTLayoutConstraintAxisVertical:
             direction = @"V:";
             attribute = NSLayoutAttributeHeight;
             break;
@@ -320,12 +330,12 @@
             return @[];
     }
     
-    UIView *previousView = nil;
-    UIView *firstView = views[0];
+    JRTView *previousView = nil;
+    JRTView *firstView = views[0];
     NSDictionary *metrics = @{@"spacing":@(spacing)};
     NSString *vfl = nil;
     NSMutableArray *constraints = [NSMutableArray array];
-    for (UIView *view in views)
+    for (JRTView *view in views)
     {
         vfl = nil;
         NSDictionary *views = nil;
@@ -362,7 +372,7 @@
     return [constraints copy];
 }
 
--(NSArray*)spaceViews:(NSArray *)views onAxis:(UILayoutConstraintAxis)axis
+-(NSArray*)spaceViews:(NSArray *)views onAxis:(JRTLayoutConstraintAxis)axis
 {
     NSAssert([views count] > 1,@"Can only distribute 2 or more views");
 
@@ -370,11 +380,11 @@
     NSLayoutAttribute attributeToPin;
 
     switch (axis) {
-        case UILayoutConstraintAxisHorizontal:
+        case JRTLayoutConstraintAxisHorizontal:
             attributeForView = NSLayoutAttributeCenterX;
             attributeToPin = NSLayoutAttributeRight;
             break;
-        case UILayoutConstraintAxisVertical:
+        case JRTLayoutConstraintAxisVertical:
             attributeForView = NSLayoutAttributeCenterY;
             attributeToPin = NSLayoutAttributeBottom;
             break;
@@ -385,7 +395,7 @@
     CGFloat fractionPerView = 1.0 / (CGFloat)([views count] + 1);
     
     NSMutableArray *constraints = [NSMutableArray array];
-    [views enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop)
+    [views enumerateObjectsUsingBlock:^(JRTView *view, NSUInteger idx, BOOL *stop)
     {
         CGFloat multiplier = fractionPerView * (idx + 1.0);
         [constraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:attributeForView relatedBy:NSLayoutRelationEqual toItem:self attribute:attributeToPin multiplier:multiplier constant:0.0]];
@@ -397,12 +407,16 @@
 
 #pragma mark - Private
 
--(UIView*)commonSuperviewWithView:(UIView*)peerView
+-(JRTView*)commonSuperviewWithView:(JRTView*)peerView
 {
-    UIView *commonSuperview = nil;
-    UIView *startView = self;
+    JRTView *commonSuperview = nil;
+    JRTView *startView = self;
     do {
+#if TARGET_OS_IPHONE
         if ([peerView isDescendantOfView:startView])
+#else
+        if ([peerView isDescendantOf:startView])
+#endif
         {
             commonSuperview = startView;
         }
@@ -421,17 +435,17 @@
 
 #pragma mark - Deprecated
 
--(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(UIView *)peerView
+-(NSLayoutConstraint *)pinAttribute:(NSLayoutAttribute)attribute toSameAttributeOfView:(JRTView *)peerView
 {
     return [self pinAttribute:attribute toSameAttributeOfItem:peerView];
 }
 
--(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView*)peerView
+-(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(JRTView*)peerView
 {
     return [self pinEdge:edge toEdge:toEdge ofItem:peerView inset:0.0];
 }
 
--(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(UIView *)peerView inset:(CGFloat)inset
+-(NSLayoutConstraint *)pinEdge:(NSLayoutAttribute)edge toEdge:(NSLayoutAttribute)toEdge ofView:(JRTView *)peerView inset:(CGFloat)inset
 {
     return [self pinEdge:edge toEdge:toEdge ofItem:peerView inset:inset];
 }
