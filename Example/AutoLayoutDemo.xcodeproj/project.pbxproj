@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14D07F4F193A90F400C77598 /* JRTView+JRTAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D07F4D193A90F400C77598 /* JRTView+JRTAutoLayout.m */; };
 		171B69F3192B31EF006065F0 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 171B69F2192B31EF006065F0 /* XCTest.framework */; };
 		171B69F4192B31EF006065F0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF275DD4A80C301D54CF34DE /* Foundation.framework */; };
 		171B69F5192B31EF006065F0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF27568AFD3635C145871BEF /* UIKit.framework */; };
@@ -19,7 +20,6 @@
 		DF2750331EA5D220BC0BE076 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF2756104BAC3B7E87E6A72F /* MainViewController.m */; };
 		DF2752742BCEC480FB36B203 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DF275B84E4C60B85C4577C3D /* AppDelegate.m */; };
 		DF2752F18242108B2571F69C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF27568AFD3635C145871BEF /* UIKit.framework */; };
-		DF2752F19E1290635A487DE3 /* UIView+AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = DF275454DFD73175FD57BE1F /* UIView+AutoLayout.m */; };
 		DF2754158FF62D1A78069367 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DF27580D5D4C3424DE1FF035 /* InfoPlist.strings */; };
 		DF27552DDDFB679F9544D57C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DF275CE190D93FC8CCFEDC27 /* main.m */; };
 		DF2759B2C48E31C04C2E87C7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF2755AC9ACD5C6AFF43DE2F /* CoreGraphics.framework */; };
@@ -37,6 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14D07F4C193A90F400C77598 /* JRTView+JRTAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JRTView+JRTAutoLayout.h"; sourceTree = "<group>"; };
+		14D07F4D193A90F400C77598 /* JRTView+JRTAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JRTView+JRTAutoLayout.m"; sourceTree = "<group>"; };
+		14D07F4E193A90F400C77598 /* UIView+JRTAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+JRTAutoLayout.h"; sourceTree = "<group>"; };
 		171B69F1192B31EF006065F0 /* AutoLayoutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AutoLayoutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		171B69F2192B31EF006065F0 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		171B69F8192B31EF006065F0 /* AutoLayoutTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AutoLayoutTests-Info.plist"; sourceTree = "<group>"; };
@@ -50,7 +53,6 @@
 		5370BBBD19098A2200E3B760 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACD751648B6546CFB5B7E6AA /* Pods-AutoLayoutTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AutoLayoutTests.xcconfig"; path = "Pods/Pods-AutoLayoutTests.xcconfig"; sourceTree = "<group>"; };
 		C4144E930D6D4E9787A7E9B5 /* libPods-AutoLayoutTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AutoLayoutTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DF275454DFD73175FD57BE1F /* UIView+AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AutoLayout.m"; sourceTree = "<group>"; };
 		DF2754EB50EBF6ADC135166E /* AutoLayoutDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AutoLayoutDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DF2754F0F63B684F1B6EA09A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		DF2755AC9ACD5C6AFF43DE2F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -183,7 +185,9 @@
 			isa = PBXGroup;
 			children = (
 				DF2759E7784BC3DCD7A431CB /* UIView+AutoLayout.h */,
-				DF275454DFD73175FD57BE1F /* UIView+AutoLayout.m */,
+				14D07F4E193A90F400C77598 /* UIView+JRTAutoLayout.h */,
+				14D07F4C193A90F400C77598 /* JRTView+JRTAutoLayout.h */,
+				14D07F4D193A90F400C77598 /* JRTView+JRTAutoLayout.m */,
 			);
 			name = Source;
 			path = ../Source;
@@ -330,8 +334,8 @@
 			files = (
 				DF27552DDDFB679F9544D57C /* main.m in Sources */,
 				DF2752742BCEC480FB36B203 /* AppDelegate.m in Sources */,
-				DF2752F19E1290635A487DE3 /* UIView+AutoLayout.m in Sources */,
 				DF2750331EA5D220BC0BE076 /* MainViewController.m in Sources */,
+				14D07F4F193A90F400C77598 /* JRTView+JRTAutoLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
