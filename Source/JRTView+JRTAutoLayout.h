@@ -3,8 +3,6 @@
 //
 //  Created by Richard Turton on 18/10/2012.
 //
-//  Added OS X support by Vanderlei Martinelli on 31/05/2014.
-//
 
 #if TARGET_OS_IPHONE
 

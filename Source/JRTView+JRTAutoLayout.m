@@ -3,8 +3,6 @@
 //
 //  Created by Richard Turton on 18/10/2012.
 //
-//  Added OS X support by Vanderlei Martinelli on 31/05/2014.
-//
 
 #import "JRTView+JRTAutoLayout.h"
 
@@ -48,17 +46,13 @@
 #pragma mark - Pinning to the Superview
 
 #if TARGET_OS_IPHONE
+
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset
 {
     return [self pinToSuperviewEdges:edges inset:inset usingLayoutGuidesFrom:nil];
 }
-#endif
 
-#if TARGET_OS_IPHONE
 -(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset usingLayoutGuidesFrom:(UIViewController *)viewController
-#else
--(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset
-#endif
 {
     JRTView *superview = self.superview;
     NSAssert(superview,@"Can't pin to a superview if no superview exists");
@@ -66,14 +60,12 @@
     id topItem = nil;
     id bottomItem = nil;
 
-#if TARGET_OS_IPHONE
 #ifdef __IPHONE_7_0
     if (viewController && [viewController respondsToSelector:@selector(topLayoutGuide)])
     {
         topItem = viewController.topLayoutGuide;
         bottomItem = viewController.bottomLayoutGuide;
     }
-#endif
 #endif
 
     NSMutableArray *constraints = [NSMutableArray new];
@@ -100,6 +92,44 @@
     }
     return [constraints copy];
 }
+
+#else
+
+-(NSArray*)pinToSuperviewEdges:(JRTViewPinEdges)edges inset:(CGFloat)inset
+{
+    JRTView *superview = self.superview;
+    NSAssert(superview,@"Can't pin to a superview if no superview exists");
+    
+    id topItem = nil;
+    id bottomItem = nil;
+    
+    NSMutableArray *constraints = [NSMutableArray new];
+    
+    if (edges & JRTViewPinTopEdge)
+    {
+        id item = topItem ? topItem : superview;
+        NSLayoutAttribute attribute = topItem ? NSLayoutAttributeBottom : NSLayoutAttributeTop;
+        [constraints addObject:[self pinAttribute:NSLayoutAttributeTop toAttribute:attribute ofItem:item withConstant:inset]];
+    }
+    if (edges & JRTViewPinLeftEdge)
+    {
+        [constraints addObject:[self pinAttribute:NSLayoutAttributeLeft toAttribute:NSLayoutAttributeLeft ofItem:superview withConstant:inset]];
+    }
+    if (edges & JRTViewPinRightEdge)
+    {
+        [constraints addObject:[self pinAttribute:NSLayoutAttributeRight toAttribute:NSLayoutAttributeRight ofItem:superview withConstant:-inset]];
+    }
+    if (edges & JRTViewPinBottomEdge)
+    {
+        id item = bottomItem ? bottomItem : superview;
+        NSLayoutAttribute attribute = bottomItem ? NSLayoutAttributeTop : NSLayoutAttributeBottom;
+        [constraints addObject:[self pinAttribute:NSLayoutAttributeBottom toAttribute:attribute ofItem:item withConstant:-inset]];
+    }
+    return [constraints copy];
+}
+
+#endif
+
 
 -(NSArray*)pinToSuperviewEdgesWithInset:(JRTEdgeInsets)insets
 {
