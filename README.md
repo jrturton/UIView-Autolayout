@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jrturton/UIView-Autolayout.svg?branch=master)](https://travis-ci.org/jrturton/UIView-Autolayout)
+_Travis integration temporarily removed while issues with Specta are investigated_
 
 UIView-Autolayout
 =================
