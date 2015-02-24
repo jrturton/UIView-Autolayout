@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/jrturton/UIView-Autolayout.svg)](https://travis-ci.org/jrturton/UIView-Autolayout)
+[![Build Status](https://travis-ci.org/jrturton/UIView-Autolayout.svg?branch=master)](https://travis-ci.org/jrturton/UIView-Autolayout)
 
 UIView-Autolayout
 =================
