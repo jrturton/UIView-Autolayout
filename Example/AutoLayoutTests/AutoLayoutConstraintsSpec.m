@@ -7,7 +7,7 @@
 //
 
 #import <Specta/Specta.h>
-
+#import <XCTest/XCTest.h>
 #define EXP_SHORTHAND
 #import <Expecta/Expecta.h>
 
@@ -434,12 +434,11 @@ describe(@"AutoLayout constraints", ^{
         __block UIView *view2 = nil;
 
         beforeEach(^{
-            superview = [UIView autoLayoutView];
+            superview = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 300.0, 300.0)];
             view1 = [UIView autoLayoutView];
             view2 = [UIView autoLayoutView];
             [superview addSubview:view1];
             [superview addSubview:view2];
-            [superview constrainToSize:CGSizeMake(300.0,300.0)];
             [view1 constrainToSize:CGSizeMake(100.0, 100.0)];
             [view1 centerInView:superview];
         });
