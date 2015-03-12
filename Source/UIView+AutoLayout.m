@@ -369,116 +369,102 @@
 
 -(NSArray*)spaceViews:(NSArray *)views onAxis:(UILayoutConstraintAxis)axis withMargin:(BOOL)margin
 {
-    NSAssert([views count] > 1,@"Can only distribute 2 or more views");
-    
-    if (margin)
+    if (views.count==0)
     {
-        NSLayoutAttribute attributeForView;
-        NSLayoutAttribute attributeToPin;
-        
-        switch (axis) {
-            case UILayoutConstraintAxisHorizontal:
-                attributeForView = NSLayoutAttributeCenterX;
-                attributeToPin = NSLayoutAttributeRight;
-                break;
-            case UILayoutConstraintAxisVertical:
-                attributeForView = NSLayoutAttributeCenterY;
-                attributeToPin = NSLayoutAttributeBottom;
-                break;
-            default:
-                return @[];
-        }
-        
-        CGFloat fractionPerView = 1.0 / (CGFloat)([views count] + 1);
-        
-        NSMutableArray *constraints = [NSMutableArray array];
-        [views enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop)
-         {
-             CGFloat multiplier = fractionPerView * (idx + 1.0);
-             [constraints addObject:[NSLayoutConstraint constraintWithItem:view attribute:attributeForView relatedBy:NSLayoutRelationEqual toItem:self attribute:attributeToPin multiplier:multiplier constant:0.0]];
-         }];
-        
-        [self addConstraints:constraints];
-        return [constraints copy];
+        return @[];
+    }
+    else if(views.count==1)
+    {
+        return @[[views[0] centerInContainerOnAxis:axis==UILayoutConstraintAxisHorizontal?NSLayoutAttributeCenterX:NSLayoutAttributeCenterY]];
     }
     else
     {
-        NSLayoutAttribute attributeForView;
         NSLayoutAttribute attributeToPin;
         NSLayoutAttribute attributeToPinInverse;
-        JRTViewPinEdges firstObjPin;
-        JRTViewPinEdges lastObjPin;
+        NSLayoutAttribute attributeEqualSize;
         
         switch (axis) {
             case UILayoutConstraintAxisHorizontal:
-                attributeForView = NSLayoutAttributeCenterX;
                 attributeToPin = NSLayoutAttributeRight;
                 attributeToPinInverse = NSLayoutAttributeLeft;
-                firstObjPin = JRTViewPinLeftEdge;
-                lastObjPin = JRTViewPinRightEdge;
+                attributeEqualSize = NSLayoutAttributeWidth;
+
                 break;
             case UILayoutConstraintAxisVertical:
-                attributeForView = NSLayoutAttributeCenterY;
                 attributeToPin = NSLayoutAttributeBottom;
                 attributeToPinInverse = NSLayoutAttributeTop;
-                firstObjPin = JRTViewPinTopEdge;
-                lastObjPin = JRTViewPinBottomEdge;
+                attributeEqualSize = NSLayoutAttributeHeight;
                 break;
             default:
                 return @[];
         }
-        
-        
         NSMutableArray *constraints = [NSMutableArray array];
         
-        //layout first view
-        [((UIView *)[views firstObject]) pinEdges:firstObjPin toSameEdgesOfView:self];
-        
-        //layout last item
-        [((UIView *)[views lastObject]) pinEdges:lastObjPin toSameEdgesOfView:self];
-        
-        //layout the middle views
-        if (views.count>2)
+        //the spaces are created through auxiliary views
+        if (margin)
         {
-            UIView *auxiliaryView = [UIView autoLayoutView];
-            [constraints addObject:[NSLayoutConstraint constraintWithItem:auxiliaryView
-                                                                attribute:attributeToPinInverse
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:[views firstObject]
-                                                                attribute:attributeToPin
-                                                               multiplier:1.0
-                                                                 constant:0.0]];
-            
-            [constraints addObject:[NSLayoutConstraint constraintWithItem:auxiliaryView
-                                                                attribute:attributeToPin
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:[views lastObject]
-                                                                attribute:attributeToPinInverse
-                                                               multiplier:1.0
-                                                                 constant:0.0]];
-            
-            [self addSubview:auxiliaryView];
-            CGFloat fractionPerView = 2.0 / (CGFloat)([views count]-1);
-            NSMutableArray *auxConstraints = [NSMutableArray array];
-            
-            for (int i=1; i<views.count-1; i++)
+            NSMutableArray *auxViews = [NSMutableArray arrayWithCapacity:views.count+1];
+            for (int i=0; i<views.count+1; i++)
             {
-                [auxiliaryView addSubview:views[i]];
+                UIView *auxView = [UIView autoLayoutView];
+                [auxView setBackgroundColor:[UIColor yellowColor]];
+                [auxViews addObject:auxView];
+                [self addSubview:auxView];
                 
-                CGFloat multiplier = fractionPerView * i;
-                [auxConstraints addObject:[NSLayoutConstraint constraintWithItem:(UIView *)views[i]
-                                                                       attribute:attributeForView
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:auxiliaryView
-                                                                       attribute:attributeForView
-                                                                      multiplier:multiplier
-                                                                        constant:0.0]];
+                if (i==0)
+                {
+                    //equal first auxiliary view's left/top to the left/top of the container
+                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:attributeToPinInverse relatedBy:NSLayoutRelationEqual toItem:auxView attribute:attributeToPinInverse multiplier:1.0 constant:0.0]];
+                }
+                else
+                {
+                    //equal the auxiliary view's left/top to the previous view's right/bottom
+                    [constraints addObject:[NSLayoutConstraint constraintWithItem:views[i-1] attribute:attributeToPin relatedBy:NSLayoutRelationEqual toItem:auxView attribute:attributeToPinInverse multiplier:1.0 constant:0.0]];
+                    //equal the auxiliary view's width/height to the previous auxiliary view's width/height
+                    [constraints addObject:[NSLayoutConstraint constraintWithItem:auxViews[i-1] attribute:attributeEqualSize relatedBy:NSLayoutRelationEqual toItem:auxView attribute:attributeEqualSize multiplier:1.0 constant:0.0]];
+                }
+                
+                if (i!=views.count)
+                {
+                    //equal the auxiliary view's right/bottom to the next view's left/top
+                    [constraints addObject:[NSLayoutConstraint constraintWithItem:views[i] attribute:attributeToPinInverse relatedBy:NSLayoutRelationEqual toItem:auxView attribute:attributeToPin multiplier:1.0 constant:0.0]];
+                }
+                else
+                {
+                    //equal last auxiliary view's right/bottom to the right/bottom of the container
+                    [constraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:attributeToPin relatedBy:NSLayoutRelationEqual toItem:auxView attribute:attributeToPin multiplier:1.0 constant:0.0]];
+                }
             }
+        }
+        else
+        {
+            //equal first view's left/top to the left/top of the container
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:[views firstObject] attribute:attributeToPinInverse relatedBy:NSLayoutRelationEqual toItem:self attribute:attributeToPinInverse multiplier:1.0 constant:0.0]];
+            //equal last view's right/bottom to the right/bottom of the container
+            [constraints addObject:[NSLayoutConstraint constraintWithItem:[views lastObject] attribute:attributeToPin relatedBy:NSLayoutRelationEqual toItem:self attribute:attributeToPin multiplier:1.0 constant:0.0]];
             
-            [auxiliaryView addConstraints:auxConstraints];
+            NSMutableArray *auxViews = [NSMutableArray arrayWithCapacity:views.count-1];
+            for (int i=0; i<views.count-1; i++)
+            {
+                UIView *auxView = [UIView autoLayoutView];
+                [auxView setBackgroundColor:[UIColor yellowColor]];
+                [auxViews addObject:auxView];
+                [self addSubview:auxView];
+                
+                //equal the auxiliary view's left/top to the previous view's right/bottom
+                [constraints addObject:[NSLayoutConstraint constraintWithItem:views[i] attribute:attributeToPin relatedBy:NSLayoutRelationEqual toItem:auxView attribute:attributeToPinInverse multiplier:1.0 constant:0.0]];
+                //equal the auxiliary view's right/bottom to the next view's left/top
+                [constraints addObject:[NSLayoutConstraint constraintWithItem:views[i+1] attribute:attributeToPinInverse relatedBy:NSLayoutRelationEqual toItem:auxView attribute:attributeToPin multiplier:1.0 constant:0.0]];
+                
+                //equal the width of the aux views
+                if (i>0)
+                {
+                    [constraints addObject:[NSLayoutConstraint constraintWithItem:auxViews[i-1] attribute:attributeEqualSize relatedBy:NSLayoutRelationEqual toItem:auxView attribute:attributeEqualSize multiplier:1.0 constant:0.0]];
+                }
+            }
         }
         
-        [self addConstraints:constraints];
+        [NSLayoutConstraint activateConstraints:constraints];
         return [constraints copy];
     }
 }

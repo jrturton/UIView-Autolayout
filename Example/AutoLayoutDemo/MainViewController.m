@@ -144,9 +144,7 @@
         [self.mouth addSubview:tooth];
         
         [tooth constrainToWidth:10.0];
-        [tooth constrainToMinimumSize:CGSizeMake(10.0, 0.0)];
         [tooth pinEdges:JRTViewPinTopEdge | JRTViewPinBottomEdge toSameEdgesOfView:self.mouth];
-        [tooth centerInContainerOnAxis:NSLayoutAttributeCenterY];
         
         [teeth addObject:tooth];
     }
@@ -223,7 +221,7 @@
         panel.backgroundColor = [UIColor blackColor];
 
         [self.leftArm addSubview:panel];
-
+        
         [panel constrainToSize:CGSizeMake(10.0, 10.0 + (i * 2.0))];
         [panel centerInContainerOnAxis:NSLayoutAttributeCenterX];
 
@@ -235,10 +233,10 @@
 - (void)evenlySpaceViewsWithoutMarginOnBodyWithFixedSize
 {
     NSMutableArray *tiles = [NSMutableArray new];
-    for (int i = 0; i < 15; i++)
+    for (int i = 0; i < 10; i++)
     {
         UIView *panel = [UIView autoLayoutView];
-        panel.backgroundColor = [UIColor cyanColor];
+        panel.backgroundColor = [UIColor colorWithRed:.1*i green:.4 blue:.1*(9-i) alpha:1];
         
         [self.body addSubview:panel];
         
