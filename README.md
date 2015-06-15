@@ -3,6 +3,14 @@
 UIView-Autolayout
 =================
 
+---
+
+**Do you really need this?**
+
+If you're making a new app targeting iOS9 or higher, I'd recommend using the new layout anchor functionality and stack views to achieve the layout you require. The layout anchor gives you concise creation of constraints in code, and stack views probably give you 90% of the layouts you were making yourself using constraints anyway. 
+
+---
+
 Category on UIView to simplify the creation of common layout constraints. The code is described and introduced in [this blog post](http://commandshift.co.uk/blog/2013/02/20/creating-individual-layout-constraints/).
 
 Here's the API documentation [on Cocoadocs](http://cocoadocs.org/docsets/UIView-Autolayout).
