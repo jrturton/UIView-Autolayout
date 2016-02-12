@@ -58,10 +58,16 @@
     id bottomItem = nil;
 
 #ifdef __IPHONE_7_0
-    if (viewController && [viewController respondsToSelector:@selector(topLayoutGuide)])
+    if (viewController)
     {
-        topItem = viewController.topLayoutGuide;
-        bottomItem = viewController.bottomLayoutGuide;
+        if ([viewController respondsToSelector:@selector(topLayoutGuide)])
+        {
+            topItem = viewController.topLayoutGuide;
+        }
+        if ([viewController respondsToSelector:@selector(bottomLayoutGuide)])
+        {
+           bottomItem = viewController.bottomLayoutGuide;
+        }
     }
 #endif
 
