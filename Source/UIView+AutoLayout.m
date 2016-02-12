@@ -79,13 +79,13 @@
     }
     if (edges & JRTViewPinRightEdge)
     {
-        [constraints addObject:[self pinAttribute:NSLayoutAttributeRight toAttribute:NSLayoutAttributeRight ofItem:superview withConstant:-inset]];
+        [constraints addObject:[superview pinAttribute:NSLayoutAttributeRight toAttribute:NSLayoutAttributeRight ofItem:self withConstant:inset]];
     }
     if (edges & JRTViewPinBottomEdge)
     {
         id item = bottomItem ? bottomItem : superview;
         NSLayoutAttribute attribute = bottomItem ? NSLayoutAttributeTop : NSLayoutAttributeBottom;
-        [constraints addObject:[self pinAttribute:NSLayoutAttributeBottom toAttribute:attribute ofItem:item withConstant:-inset]];
+        [constraints addObject:[item pinAttribute:NSLayoutAttributeBottom toAttribute:attribute ofItem:self withConstant:inset]];
     }
     return [constraints copy];
 }
@@ -249,11 +249,11 @@
     }
     if (edges & JRTViewPinRightEdge)
     {
-        [constraints addObject:[self pinAttribute:NSLayoutAttributeRight toAttribute:NSLayoutAttributeRight ofItem:peerView withConstant:-inset]];
+        [constraints addObject:[peerView pinAttribute:NSLayoutAttributeRight toAttribute:NSLayoutAttributeRight ofItem:self withConstant:inset]];
     }
     if (edges & JRTViewPinBottomEdge)
     {
-        [constraints addObject:[self pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeBottom ofItem:peerView withConstant:-inset]];
+        [constraints addObject:[peerView pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeBottom ofItem:self withConstant:inset]];
     }
     [superview addConstraints:constraints];
     return [constraints copy];
