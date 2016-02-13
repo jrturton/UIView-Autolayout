@@ -22,7 +22,7 @@ The demo project is most of the way towards drawing a robot made of views arrang
 Installation
 -------------
 
-**Using [Cocoapods](http://cocoapods.org/):**
+**Using [CocoaPods](http://cocoapods.org/):**
 
 `pod 'UIView-Autolayout', '~> 0.2.0'`
 
@@ -36,8 +36,8 @@ Deprecated Methods
 As of version 1.0.0, all deprecated methods will be removed from this category.
 All deprecated methods are marked with a compiler flag providing instructions on alternative methods to use but for more information check out the API documentation on the Cocoadocs website listed above.
 
-If you are using Cocoapods and do not wish to upgrade to version 1.0.0 then you can specify the following in your Podfile:
+If you are using CocoaPods and do not wish to upgrade to version 1.0.0 then you can specify the following in your Podfile:
 
 `pod 'UIView-Autolayout', '~> 0.2.0'`
 
-This will prevent Cocoapods installing any 1.0.0 updates.
+This will prevent CocoaPods installing any 1.0.0 updates.
