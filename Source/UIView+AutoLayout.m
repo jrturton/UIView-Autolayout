@@ -137,6 +137,36 @@
     return [self pinAttribute:axis toSameAttributeOfItem:view];
 }
 
+#pragma mark - Constraining to a ratio
+
+-(NSLayoutConstraint *)constrainToRatio:(CGFloat)ratio
+{
+    NSAssert(ratio > 0, @"ratio(%f) should be strictly greater than 0",ratio);
+    BOOL paramsAreOk = YES;
+    if(
+       ratio <= 0
+       )
+    {
+        paramsAreOk = NO;
+    }
+    if( paramsAreOk )
+    {
+        NSLayoutConstraint* constraint = [NSLayoutConstraint constraintWithItem:self
+                                                                      attribute:NSLayoutAttributeWidth
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:self
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                     multiplier:ratio
+                                                                       constant:0];
+        [self addConstraint:constraint];
+        return constraint;
+    }
+    else
+    {
+        return nil;
+    }
+}
+
 #pragma mark - Constraining to a fixed size
 
 -(NSArray *)constrainToSize:(CGSize)size
