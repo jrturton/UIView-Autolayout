@@ -167,6 +167,43 @@
     }
 }
 
+#pragma mark - Constraining to a relative size
+
+-(NSLayoutConstraint *)pinToSuperviewWidthWithMultiplier:(CGFloat)multiplier
+{
+    UIView *superview = self.superview;
+    NSAssert(superview,@"Can't pin to a superview if no superview exists");
+    
+    NSLayoutConstraint* constraint =
+    [NSLayoutConstraint
+     constraintWithItem:self
+     attribute:NSLayoutAttributeWidth
+     relatedBy:NSLayoutRelationEqual
+     toItem:superview
+     attribute:NSLayoutAttributeWidth
+     multiplier:multiplier
+     constant:0];
+    [self addConstraint:constraint];
+    return constraint;
+}
+-(NSLayoutConstraint *)pinToSuperviewHeightWithMultiplier:(CGFloat)multiplier
+{
+    UIView *superview = self.superview;
+    NSAssert(superview,@"Can't pin to a superview if no superview exists");
+    
+    NSLayoutConstraint* constraint =
+    [NSLayoutConstraint
+     constraintWithItem:self
+     attribute:NSLayoutAttributeHeight
+     relatedBy:NSLayoutRelationEqual
+     toItem:superview
+     attribute:NSLayoutAttributeHeight
+     multiplier:multiplier
+     constant:0];
+    [self addConstraint:constraint];
+    return constraint;
+}
+
 #pragma mark - Constraining to a fixed size
 
 -(NSArray *)constrainToSize:(CGSize)size
