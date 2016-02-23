@@ -58,10 +58,16 @@
     id bottomItem = nil;
 
 #ifdef __IPHONE_7_0
-    if (viewController && [viewController respondsToSelector:@selector(topLayoutGuide)])
+    if (viewController)
     {
-        topItem = viewController.topLayoutGuide;
-        bottomItem = viewController.bottomLayoutGuide;
+        if ([viewController respondsToSelector:@selector(topLayoutGuide)])
+        {
+            topItem = viewController.topLayoutGuide;
+        }
+        if ([viewController respondsToSelector:@selector(bottomLayoutGuide)])
+        {
+           bottomItem = viewController.bottomLayoutGuide;
+        }
     }
 #endif
 
@@ -79,13 +85,13 @@
     }
     if (edges & JRTViewPinRightEdge)
     {
-        [constraints addObject:[self pinAttribute:NSLayoutAttributeRight toAttribute:NSLayoutAttributeRight ofItem:superview withConstant:-inset]];
+        [constraints addObject:[superview pinAttribute:NSLayoutAttributeRight toAttribute:NSLayoutAttributeRight ofItem:self withConstant:inset]];
     }
     if (edges & JRTViewPinBottomEdge)
     {
         id item = bottomItem ? bottomItem : superview;
         NSLayoutAttribute attribute = bottomItem ? NSLayoutAttributeTop : NSLayoutAttributeBottom;
-        [constraints addObject:[self pinAttribute:NSLayoutAttributeBottom toAttribute:attribute ofItem:item withConstant:-inset]];
+        [constraints addObject:[item pinAttribute:NSLayoutAttributeBottom toAttribute:attribute ofItem:self withConstant:inset]];
     }
     return [constraints copy];
 }
@@ -129,6 +135,73 @@
 {
     NSParameterAssert(axis == NSLayoutAttributeCenterX || axis == NSLayoutAttributeCenterY);
     return [self pinAttribute:axis toSameAttributeOfItem:view];
+}
+
+#pragma mark - Constraining to a ratio
+
+-(NSLayoutConstraint *)constrainToRatio:(CGFloat)ratio
+{
+    NSAssert(ratio > 0, @"ratio(%f) should be strictly greater than 0",ratio);
+    BOOL paramsAreOk = YES;
+    if(
+       ratio <= 0
+       )
+    {
+        paramsAreOk = NO;
+    }
+    if( paramsAreOk )
+    {
+        NSLayoutConstraint* constraint = [NSLayoutConstraint constraintWithItem:self
+                                                                      attribute:NSLayoutAttributeWidth
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:self
+                                                                      attribute:NSLayoutAttributeHeight
+                                                                     multiplier:ratio
+                                                                       constant:0];
+        [self addConstraint:constraint];
+        return constraint;
+    }
+    else
+    {
+        return nil;
+    }
+}
+
+#pragma mark - Constraining to a relative size
+
+-(NSLayoutConstraint *)pinToSuperviewWidthWithMultiplier:(CGFloat)multiplier
+{
+    UIView *superview = self.superview;
+    NSAssert(superview,@"Can't pin to a superview if no superview exists");
+    
+    NSLayoutConstraint* constraint =
+    [NSLayoutConstraint
+     constraintWithItem:self
+     attribute:NSLayoutAttributeWidth
+     relatedBy:NSLayoutRelationEqual
+     toItem:superview
+     attribute:NSLayoutAttributeWidth
+     multiplier:multiplier
+     constant:0];
+    [superview addConstraint:constraint];
+    return constraint;
+}
+-(NSLayoutConstraint *)pinToSuperviewHeightWithMultiplier:(CGFloat)multiplier
+{
+    UIView *superview = self.superview;
+    NSAssert(superview,@"Can't pin to a superview if no superview exists");
+    
+    NSLayoutConstraint* constraint =
+    [NSLayoutConstraint
+     constraintWithItem:self
+     attribute:NSLayoutAttributeHeight
+     relatedBy:NSLayoutRelationEqual
+     toItem:superview
+     attribute:NSLayoutAttributeHeight
+     multiplier:multiplier
+     constant:0];
+    [superview addConstraint:constraint];
+    return constraint;
 }
 
 #pragma mark - Constraining to a fixed size
@@ -249,11 +322,11 @@
     }
     if (edges & JRTViewPinRightEdge)
     {
-        [constraints addObject:[self pinAttribute:NSLayoutAttributeRight toAttribute:NSLayoutAttributeRight ofItem:peerView withConstant:-inset]];
+        [constraints addObject:[peerView pinAttribute:NSLayoutAttributeRight toAttribute:NSLayoutAttributeRight ofItem:self withConstant:inset]];
     }
     if (edges & JRTViewPinBottomEdge)
     {
-        [constraints addObject:[self pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeBottom ofItem:peerView withConstant:-inset]];
+        [constraints addObject:[peerView pinAttribute:NSLayoutAttributeBottom toAttribute:NSLayoutAttributeBottom ofItem:self withConstant:inset]];
     }
     [superview addConstraints:constraints];
     return [constraints copy];
