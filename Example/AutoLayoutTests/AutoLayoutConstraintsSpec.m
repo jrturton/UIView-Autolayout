@@ -25,6 +25,7 @@
 
 #define JRTEdgeConstraintWithEdgeAndEqualInset(edge, inset) [NSLayoutConstraint constraintWithItem:subview attribute:edge relatedBy:NSLayoutRelationEqual toItem:superview attribute:edge multiplier:1.0 constant:inset]
 
+#define JRTEdgeReversedConstraintWithEdgeAndEqualInset(edge, inset) [NSLayoutConstraint constraintWithItem:superview attribute:edge relatedBy:NSLayoutRelationEqual toItem:subview attribute:edge multiplier:1.0 constant:inset]
 
 SpecBegin(AutoLayoutConstraints)
 
@@ -330,7 +331,7 @@ describe(@"AutoLayout constraints", ^{
             [superview layoutIfNeeded];
             
             expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeTop, inset));
-            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeBottom, -inset));
+            expect(superview).to.haveConstraint(JRTEdgeReversedConstraintWithEdgeAndEqualInset(NSLayoutAttributeBottom, inset));
             expect(superview.constraints).to.haveCountOf(2);
             
             CGRect expected = (CGRect) {
@@ -349,7 +350,7 @@ describe(@"AutoLayout constraints", ^{
             [superview layoutIfNeeded];
             
             expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeTop, inset));
-            expect(superview).to.haveConstraint(JRTEdgeConstraintWithEdgeAndEqualInset(NSLayoutAttributeBottom, -inset));
+            expect(superview).to.haveConstraint(JRTEdgeReversedConstraintWithEdgeAndEqualInset(NSLayoutAttributeBottom, inset));
             expect(superview.constraints).to.haveCountOf(2);
             
             CGRect expected = (CGRect) {
