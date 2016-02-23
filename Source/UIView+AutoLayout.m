@@ -183,7 +183,7 @@
      attribute:NSLayoutAttributeWidth
      multiplier:multiplier
      constant:0];
-    [self addConstraint:constraint];
+    [superview addConstraint:constraint];
     return constraint;
 }
 -(NSLayoutConstraint *)pinToSuperviewHeightWithMultiplier:(CGFloat)multiplier
@@ -200,7 +200,7 @@
      attribute:NSLayoutAttributeHeight
      multiplier:multiplier
      constant:0];
-    [self addConstraint:constraint];
+    [superview addConstraint:constraint];
     return constraint;
 }
 
