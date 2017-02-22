@@ -21,6 +21,7 @@
 @property (nonatomic, strong) UIView *rightPupil;
 @property (nonatomic, strong) UIView *hair;
 @property (nonatomic, strong) UIView *leftArm;
+@property (nonatomic, strong) UIView *mouth;
 
 @end
 
@@ -58,12 +59,21 @@
 
     /// Constrains to a minimum size along with pining edges to the same edges of another view.
     [self loadHair];
+    
+    /// Lower half of the head
+    [self loadMouth];
+    
+    ///evenly distributed, without margins
+    [self loadTeeth];
 
     /// Pins an attribute to the same attribute of another view but with an additional inset and constraints to a specific size.
     [self loadLeftArm];
 
     /// Evenly spaces views on the vertical axis while maintaining the fixed height for each view (by applying even padding).
     [self evenlySpaceViewsOnArmWithFixedSize];
+    
+    /// fixed size views added to the left side of the body, evenly distributed without margin
+    [self evenlySpaceViewsWithoutMarginOnBodyWithFixedSize];
 }
 
 - (void)loadRedView
@@ -109,6 +119,36 @@
     //Constrain multiple child views along the Y axis with 10pt spacing
     NSArray *views = @[ [self randomGreyscaleView], [self randomGreyscaleView], [self randomGreyscaleView], [self randomGreyscaleView] ];
     [self.body spaceViews:views onAxis:UILayoutConstraintAxisVertical withSpacing:10 alignmentOptions:0];
+}
+
+- (void)loadMouth
+{
+    self.mouth = [UIView autoLayoutView];
+    self.mouth.backgroundColor = [UIColor purpleColor];
+    
+    [self.head addSubview:self.mouth];
+    
+    //adjust the mouth to be the lower half of the head
+    [self.mouth constrainToMinimumSize:CGSizeMake(0.0, 50.0)];
+    [self.mouth pinEdges:JRTViewPinLeftEdge | JRTViewPinRightEdge | JRTViewPinBottomEdge toSameEdgesOfView:self.head];
+}
+
+- (void)loadTeeth
+{
+    NSMutableArray *teeth = [NSMutableArray new];
+    for (int i = 0; i < 6; i++)
+    {
+        UIView *tooth = [UIView autoLayoutView];
+        tooth.backgroundColor = [UIColor colorWithRed:.1 green:.1*i blue:.1*(9-i) alpha:1];
+        
+        [self.mouth addSubview:tooth];
+        
+        [tooth constrainToWidth:10.0];
+        [tooth pinEdges:JRTViewPinTopEdge | JRTViewPinBottomEdge toSameEdgesOfView:self.mouth];
+        
+        [teeth addObject:tooth];
+    }
+    [self.mouth spaceViews:teeth onAxis:UILayoutConstraintAxisHorizontal withMargin:NO];
 }
 
 - (void)loadLeftEye
@@ -181,13 +221,31 @@
         panel.backgroundColor = [UIColor blackColor];
 
         [self.leftArm addSubview:panel];
-
+        
         [panel constrainToSize:CGSizeMake(10.0, 10.0 + (i * 2.0))];
         [panel centerInContainerOnAxis:NSLayoutAttributeCenterX];
 
         [tiles addObject:panel];
     }
     [self.leftArm spaceViews:tiles onAxis:UILayoutConstraintAxisVertical];
+}
+
+- (void)evenlySpaceViewsWithoutMarginOnBodyWithFixedSize
+{
+    NSMutableArray *tiles = [NSMutableArray new];
+    for (int i = 0; i < 10; i++)
+    {
+        UIView *panel = [UIView autoLayoutView];
+        panel.backgroundColor = [UIColor colorWithRed:.1*i green:.4 blue:.1*(9-i) alpha:1];
+        
+        [self.body addSubview:panel];
+        
+        [panel constrainToSize:CGSizeMake(10.0, 10.0)];
+        [panel pinEdges:JRTViewPinRightEdge toSameEdgesOfView:self.body];
+        
+        [tiles addObject:panel];
+    }
+    [self.body spaceViews:tiles onAxis:UILayoutConstraintAxisVertical withMargin:NO];
 }
 
 #pragma mark -
